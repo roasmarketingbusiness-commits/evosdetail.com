@@ -59,8 +59,8 @@ export function Hero() {
           className="mt-7 max-w-[54ch] text-[16px] md:text-[18px] text-ink-soft leading-relaxed"
         >
           EVOS brings the full detail to you — home, office, wherever your car
-          sits. Serving Greater Houston within 20 miles. Book online in 60
-          seconds, we handle the rest.
+          sits. Based in Pearland, serving 20 miles in every direction. Book
+          online in 60 seconds, we handle the rest.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 16 }}

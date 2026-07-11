@@ -11,7 +11,7 @@ const STEPS = [
   {
     number: "02",
     title: "We come to you",
-    body: "Home, office, apartment lot — we roll up with everything we need. You don't move a thing.",
+    body: "Home, office, apartment lot — we bring all the gear. Just need access to a water spigot and an outlet.",
   },
   {
     number: "03",

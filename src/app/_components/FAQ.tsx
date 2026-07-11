@@ -6,7 +6,7 @@ import { useState } from "react";
 const FAQS = [
   {
     q: "Do you need my water or electricity?",
-    a: "Nope — we run fully self-contained with our own water and power. All we need is enough space to work around the car, roughly one parking spot of clearance on each side.",
+    a: "Yes — we'll need access to a water spigot and a standard outlet, plus enough space to work around the car. If you're not sure your spot works (like some apartment lots), mention it in the booking notes and we'll figure it out before we head over.",
   },
   {
     q: "How long does a detail take?",
@@ -14,7 +14,7 @@ const FAQS = [
   },
   {
     q: "Can you detail at my apartment or office?",
-    a: "Yes — driveways, office lots, and most apartment complexes are all good. If your complex has rules about car washing on site, check with them first and we'll work around it.",
+    a: "Usually, yes — as long as there's a water spigot and outlet we can reach, and your complex allows car washing on site. Interior-only details are easier anywhere since they don't need water hookups. When in doubt, drop it in the booking notes.",
   },
   {
     q: "How do I pay?",

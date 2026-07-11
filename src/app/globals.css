@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-rise: var(--paper-rise);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-mute: var(--ink-mute);
+  --color-volt: var(--volt);
+  --color-volt-dim: var(--volt-dim);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-anton);
+}
+
+:root {
+  --paper: #060607;
+  --paper-rise: #0e0e11;
+  --ink: #f4f5f2;
+  --ink-soft: #c9cbc4;
+  --ink-mute: #7e8078;
+  /* the accent — swap this one line to rebrand */
+  --volt: #b7ff2e;
+  --volt-dim: #b7ff2e26;
+  --hairline: #ffffff14;
+  --hairline-strong: #ffffff2b;
+}
+
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--volt);
+  color: var(--paper);
+}
+
+.display {
+  font-family: var(--font-anton), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.outline-text {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.22);
+  color: transparent;
+}
+
+.glow-volt {
+  box-shadow: 0 0 40px -8px var(--volt-dim);
+}
+
+main > section {
+  position: relative;
+}
+
+main > section:not(:last-of-type)::after {
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  height: 1px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

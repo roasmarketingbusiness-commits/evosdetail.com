@@ -186,8 +186,7 @@ export function Booking() {
 
             {status === "error" && (
               <p className="text-[13px] text-red-400">
-                Something broke on our end — try again, or DM us on Instagram
-                @evosdetail.
+                Something broke on our end — give it another shot in a minute.
               </p>
             )}
 

@@ -12,14 +12,6 @@ export function Footer() {
         </div>
         <div className="flex items-center gap-8">
           <a
-            href="https://instagram.com/evosdetail"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute hover:text-volt transition-colors"
-          >
-            Instagram
-          </a>
-          <a
             href="#book"
             className="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute hover:text-volt transition-colors"
           >

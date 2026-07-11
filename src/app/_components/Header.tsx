@@ -28,9 +28,11 @@ export function Header() {
       }`}
     >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
-        <a href="#top" className="flex items-baseline gap-1.5" aria-label="EVOS Detail — home">
-          <span className="display text-[26px] leading-none">EVOS</span>
-          <span className="display text-[26px] leading-none text-volt">DETAIL</span>
+        <a href="#top" className="flex items-baseline gap-2" aria-label="EVOS Detail — home">
+          <span className="display text-[24px] leading-none tracking-[0.08em]">EVOS</span>
+          <span className="display text-[24px] leading-none tracking-[0.08em] text-volt italic">
+            Detail
+          </span>
         </a>
         <nav className="hidden md:flex items-center gap-8">
           {NAV.map((item) => (
@@ -45,7 +47,7 @@ export function Header() {
         </nav>
         <a
           href="#book"
-          className="display text-[15px] tracking-[0.06em] bg-volt text-paper px-5 py-2.5 shadow-hard-ink hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+          className="font-mono text-[10px] tracking-[0.25em] uppercase bg-ink text-paper px-6 py-3 hover:bg-volt transition-colors duration-300"
         >
           Book now
         </a>

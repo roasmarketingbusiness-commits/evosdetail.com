@@ -22,8 +22,8 @@
   --ink-soft: #c9cbc4;
   --ink-mute: #7e8078;
   /* the accent — swap this one line to rebrand */
-  --volt: #b7ff2e;
-  --volt-dim: #b7ff2e26;
+  --volt: #c8a656;
+  --volt-dim: #c8a65626;
   --hairline: #ffffff14;
   --hairline-strong: #ffffff2b;
 }
@@ -43,9 +43,9 @@ body {
 }
 
 .display {
-  font-family: var(--font-anton), system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
+  font-family: var(--font-display-serif), Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .outline-text {

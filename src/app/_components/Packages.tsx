@@ -106,43 +106,39 @@ export function Packages() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className={`relative flex flex-col p-7 md:p-8 ${
+              className={`relative flex flex-col p-7 md:p-8 border ${
                 pkg.popular
-                  ? "border-2 border-volt bg-paper-rise shadow-hard-volt"
-                  : "border border-hairline-strong bg-paper-rise/50 notch"
+                  ? "border-volt bg-paper-rise"
+                  : "border-hairline bg-paper-rise/50"
               }`}
             >
               {pkg.popular && (
-                <span className="absolute -top-4 -right-3 rotate-[4deg] display text-[13px] tracking-[0.1em] bg-volt text-paper px-4 py-1.5 shadow-hard-black">
-                  MOST BOOKED
+                <span className="absolute -top-[9px] left-1/2 -translate-x-1/2 font-mono text-[9px] tracking-[0.3em] uppercase text-volt bg-paper px-4">
+                  Most booked
                 </span>
               )}
               <h3 className="display text-[24px] leading-tight">{pkg.name}</h3>
               <p className="mt-1 text-[14px] text-ink-mute">{pkg.tagline}</p>
               <div className="mt-6 flex items-baseline gap-2">
                 <span className="font-mono text-[12px] text-ink-mute">from</span>
-                <span
-                  className={`display text-[48px] leading-none ${
-                    pkg.popular ? "text-volt" : "chrome-text"
-                  }`}
-                >
+                <span className="display text-[46px] leading-none text-volt">
                   ${pkg.price[size]}
                 </span>
               </div>
               <ul className="mt-6 space-y-2.5 flex-1">
                 {pkg.features.map((feature) => (
                   <li key={feature} className="flex gap-3 text-[14px] text-ink-soft">
-                    <span className="text-volt mt-px">＋</span>
+                    <span className="text-volt mt-px">—</span>
                     {feature}
                   </li>
                 ))}
               </ul>
               <a
                 href="#book"
-                className={`mt-8 display text-[15px] tracking-[0.06em] text-center px-6 py-3.5 ${
+                className={`mt-8 font-mono text-[11px] tracking-[0.25em] uppercase text-center px-6 py-4 transition-colors duration-300 ${
                   pkg.popular
-                    ? "bg-volt text-paper shadow-hard-ink hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all"
-                    : "border border-hairline-strong hover:border-volt hover:text-volt transition-colors"
+                    ? "bg-volt text-paper hover:bg-ink"
+                    : "border border-hairline-strong hover:border-volt hover:text-volt"
                 }`}
               >
                 Book this

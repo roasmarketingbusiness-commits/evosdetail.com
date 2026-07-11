@@ -99,7 +99,9 @@ export function Booking() {
             animate={{ opacity: 1, y: 0 }}
             className="border border-volt p-8 md:p-10"
           >
-            <h3 className="display text-[28px] text-volt">Request in. 🤝</h3>
+            <h3 className="display text-[28px] text-volt">
+              Request received.
+            </h3>
             <p className="mt-4 text-[15px] text-ink-soft leading-relaxed">
               We got it. Expect a confirmation text shortly — if your slot&rsquo;s
               taken we&rsquo;ll offer the closest one.
@@ -108,16 +110,8 @@ export function Booking() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="border-2 border-dashed border-hairline-strong bg-paper-rise/50 p-7 md:p-9 space-y-7 relative"
+            className="border border-hairline bg-paper-rise/50 p-7 md:p-9 space-y-7 relative"
           >
-            <div className="flex items-center justify-between border-b border-hairline pb-4 -mt-1">
-              <span className="display text-[15px] tracking-[0.1em] text-volt">
-                WORK ORDER
-              </span>
-              <span className="font-mono text-[10px] tracking-[0.18em] text-ink-mute">
-                EVOS DETAIL — PEARLAND TX
-              </span>
-            </div>
             <div className="grid sm:grid-cols-2 gap-x-6 gap-y-7">
               <div>
                 <label htmlFor="name" className={labelClass}>
@@ -204,7 +198,7 @@ export function Booking() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="display text-[17px] tracking-[0.06em] bg-volt text-paper px-10 py-4 hover:bg-ink transition-colors disabled:opacity-60 w-full sm:w-auto"
+              className="font-mono text-[11px] tracking-[0.28em] uppercase bg-ink text-paper px-10 py-4.5 hover:bg-volt transition-colors duration-300 disabled:opacity-60 w-full sm:w-auto"
             >
               {status === "sending" ? "Sending…" : "Request booking"}
             </button>

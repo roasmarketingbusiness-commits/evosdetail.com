@@ -1,35 +1,147 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
-const PACKAGE_OPTIONS = ["Exterior Detail", "Interior Detail", "The Full EVOS"];
-const VEHICLE_OPTIONS = ["Sedan / Coupe", "SUV / Truck"];
-const TIME_OPTIONS = ["Morning (8–11)", "Midday (11–2)", "Afternoon (2–6)"];
+const PACKAGES: Record<string, { sedan: number; suv: number }> = {
+  "Exterior Detail": { sedan: 99, suv: 129 },
+  "Interior Detail": { sedan: 129, suv: 159 },
+  "The Full EVOS": { sedan: 189, suv: 239 },
+};
+const VEHICLES = ["Sedan / Coupe", "SUV / Truck"];
+const TIMES = ["Morning (8–11)", "Midday (11–2)", "Afternoon (2–6)"];
+
+const STEP_COUNT = 6;
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const inputClass =
-  "w-full bg-transparent border-b border-hairline-strong focus:border-volt outline-none py-2.5 text-[15px] placeholder:text-ink-mute/60 transition-colors";
+  "w-full bg-transparent border-b border-hairline-strong focus:border-volt outline-none py-3 text-[17px] placeholder:text-ink-mute/50 transition-colors";
 const labelClass =
-  "font-mono text-[10px] tracking-[0.22em] uppercase text-ink-mute";
+  "font-mono text-[10px] tracking-[0.25em] uppercase text-ink-mute";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-export function Booking() {
-  const [status, setStatus] = useState<Status>("idle");
-  const [pkg, setPkg] = useState(PACKAGE_OPTIONS[2]);
-  const [vehicle, setVehicle] = useState(VEHICLE_OPTIONS[0]);
-  const [timeWindow, setTimeWindow] = useState(TIME_OPTIONS[0]);
+interface Answers {
+  package: string;
+  vehicle: string;
+  date: string;
+  timeWindow: string;
+  zip: string;
+  name: string;
+  phone: string;
+  notes: string;
+}
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+const EMPTY: Answers = {
+  package: "",
+  vehicle: "",
+  date: "",
+  timeWindow: "",
+  zip: "",
+  name: "",
+  phone: "",
+  notes: "",
+};
+
+function Chips({
+  options,
+  value,
+  onSelect,
+}: {
+  options: string[];
+  value: string;
+  onSelect: (v: string) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-3">
+      {options.map((option) => (
+        <button
+          key={option}
+          type="button"
+          onClick={() => onSelect(option)}
+          className={`text-left font-mono text-[12px] tracking-[0.12em] px-5 py-4 border transition-colors duration-200 ${
+            value === option
+              ? "border-volt bg-volt text-paper"
+              : "border-hairline-strong text-ink-soft hover:border-volt"
+          }`}
+        >
+          {option}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export function Booking() {
+  const [answers, setAnswers] = useState<Answers>(EMPTY);
+  const [step, setStep] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [status, setStatus] = useState<Status>("idle");
+  const [stepError, setStepError] = useState("");
+
+  const set = (patch: Partial<Answers>) =>
+    setAnswers((a) => ({ ...a, ...patch }));
+
+  const price =
+    answers.package && answers.vehicle
+      ? PACKAGES[answers.package][
+          answers.vehicle === "SUV / Truck" ? "suv" : "sedan"
+        ]
+      : null;
+
+  function goTo(next: number) {
+    setDirection(next > step ? 1 : -1);
+    setStepError("");
+    setStep(next);
+  }
+
+  function validate(current: number): string {
+    switch (current) {
+      case 0:
+        return answers.package ? "" : "Pick a package to keep going.";
+      case 1:
+        return answers.vehicle ? "" : "Pick your vehicle type.";
+      case 2:
+        return answers.date && answers.timeWindow
+          ? ""
+          : "Pick a day and a time window.";
+      case 3:
+        return /^\d{5}$/.test(answers.zip) ? "" : "Enter a 5-digit zip code.";
+      case 4:
+        return answers.name.trim() && answers.phone.trim().length >= 7
+          ? ""
+          : "We need a name and a phone number to confirm your booking.";
+      default:
+        return "";
+    }
+  }
+
+  function next() {
+    const error = validate(step);
+    if (error) {
+      setStepError(error);
+      return;
+    }
+    goTo(step + 1);
+  }
+
+  function selectAndAdvance(patch: Partial<Answers>) {
+    set(patch);
+    setStepError("");
+    setTimeout(() => {
+      setDirection(1);
+      setStep((s) => s + 1);
+    }, 250);
+  }
+
+  async function submit() {
     if (status === "sending") return;
     setStatus("sending");
-    const data = Object.fromEntries(new FormData(e.currentTarget).entries());
     try {
       const res = await fetch("/api/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, package: pkg, vehicle, timeWindow }),
+        body: JSON.stringify({ ...answers, company: "" }),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
       setStatus("sent");
@@ -38,34 +150,31 @@ export function Booking() {
     }
   }
 
-  function Chips({
-    options,
-    value,
-    onChange,
-  }: {
-    options: string[];
-    value: string;
-    onChange: (v: string) => void;
-  }) {
-    return (
-      <div className="flex flex-wrap gap-2 pt-2">
-        {options.map((option) => (
-          <button
-            key={option}
-            type="button"
-            onClick={() => onChange(option)}
-            className={`font-mono text-[11px] tracking-[0.1em] px-4 py-2 border transition-colors ${
-              value === option
-                ? "border-volt bg-volt text-paper"
-                : "border-hairline-strong text-ink-soft hover:border-volt"
-            }`}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
-    );
+  function onKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "Enter" && step < STEP_COUNT - 1) {
+      e.preventDefault();
+      next();
+    }
   }
+
+  const prettyDate = (() => {
+    if (!answers.date) return "";
+    const [y, m, d] = answers.date.split("-").map(Number);
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return `${months[m - 1]} ${d}, ${y}`;
+  })();
+
+  const summaryRows: Array<[string, string]> = [
+    ["Package", answers.package || "—"],
+    ["Vehicle", answers.vehicle || "—"],
+    [
+      "When",
+      prettyDate
+        ? `${prettyDate}${answers.timeWindow ? " · " + answers.timeWindow : ""}`
+        : "—",
+    ],
+    ["Zip", answers.zip || "—"],
+  ];
 
   return (
     <section id="book" className="relative py-24 md:py-32 overflow-hidden">
@@ -88,122 +197,272 @@ export function Booking() {
             your detail.
           </h2>
           <p className="mt-6 max-w-[42ch] text-[15px] text-ink-soft leading-relaxed">
-            Send the request and we&rsquo;ll confirm your slot by text — usually
-            within a couple hours. No payment until the job&rsquo;s done.
+            Six quick questions. We confirm your slot by text — usually within
+            a couple hours. No payment until the job&rsquo;s done.
           </p>
+
+          {/* running summary */}
+          <div className="mt-10 border border-hairline bg-paper-rise/40 p-6">
+            <p className="font-mono text-[10px] tracking-[0.25em] uppercase text-ink-mute mb-5">
+              Your detail
+            </p>
+            <dl className="space-y-3">
+              {summaryRows.map(([label, value]) => (
+                <div key={label} className="flex items-baseline justify-between gap-6">
+                  <dt className="font-mono text-[11px] tracking-[0.14em] uppercase text-ink-mute">
+                    {label}
+                  </dt>
+                  <dd
+                    className={`text-[14px] text-right ${
+                      value === "—" ? "text-ink-faint" : "text-ink"
+                    }`}
+                  >
+                    {value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <AnimatePresence>
+              {price !== null && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="overflow-hidden"
+                >
+                  <div className="mt-5 pt-5 border-t border-hairline flex items-baseline justify-between">
+                    <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-ink-mute">
+                      Starting at
+                    </span>
+                    <span className="display text-[34px] leading-none text-volt">
+                      ${price}
+                    </span>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
-        {status === "sent" ? (
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="border border-volt p-8 md:p-10"
-          >
-            <h3 className="display text-[28px] text-volt">
-              Request received.
-            </h3>
-            <p className="mt-4 text-[15px] text-ink-soft leading-relaxed">
-              We got it. Expect a confirmation text shortly — if your slot&rsquo;s
-              taken we&rsquo;ll offer the closest one.
-            </p>
-          </motion.div>
-        ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="border border-hairline bg-paper-rise/50 p-7 md:p-9 space-y-7 relative"
-          >
-            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-7">
-              <div>
-                <label htmlFor="name" className={labelClass}>
-                  Name *
-                </label>
-                <input id="name" name="name" required autoComplete="name" className={inputClass} />
-              </div>
-              <div>
-                <label htmlFor="phone" className={labelClass}>
-                  Phone *
-                </label>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  required
-                  autoComplete="tel"
-                  className={inputClass}
-                />
-              </div>
-              <div>
-                <label htmlFor="zip" className={labelClass}>
-                  Zip code *
-                </label>
-                <input
-                  id="zip"
-                  name="zip"
-                  required
-                  inputMode="numeric"
-                  pattern="[0-9]{5}"
-                  className={inputClass}
-                />
-              </div>
-              <div>
-                <label htmlFor="date" className={labelClass}>
-                  Preferred day *
-                </label>
-                <input id="date" name="date" type="date" required className={inputClass} />
-              </div>
-            </div>
-
-            <div>
-              <span className={labelClass}>Package</span>
-              <Chips options={PACKAGE_OPTIONS} value={pkg} onChange={setPkg} />
-            </div>
-            <div>
-              <span className={labelClass}>Vehicle</span>
-              <Chips options={VEHICLE_OPTIONS} value={vehicle} onChange={setVehicle} />
-            </div>
-            <div>
-              <span className={labelClass}>Time window</span>
-              <Chips options={TIME_OPTIONS} value={timeWindow} onChange={setTimeWindow} />
-            </div>
-
-            <div>
-              <label htmlFor="notes" className={labelClass}>
-                Anything we should know?
-              </label>
-              <textarea
-                id="notes"
-                name="notes"
-                rows={2}
-                placeholder="Pet hair, kid chaos, apartment gate code process…"
-                className={`${inputClass} resize-none`}
-              />
-            </div>
-
-            {/* honeypot */}
-            <input
-              type="text"
-              name="company"
-              tabIndex={-1}
-              autoComplete="off"
-              className="hidden"
-              aria-hidden="true"
-            />
-
-            {status === "error" && (
-              <p className="text-[13px] text-red-400">
-                Something broke on our end — give it another shot in a minute.
-              </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className="font-mono text-[11px] tracking-[0.28em] uppercase bg-ink text-paper px-10 py-4.5 hover:bg-volt transition-colors duration-300 disabled:opacity-60 w-full sm:w-auto"
+        <div>
+          {status === "sent" ? (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="border border-volt p-8 md:p-10"
             >
-              {status === "sending" ? "Sending…" : "Request booking"}
-            </button>
-          </form>
-        )}
+              <h3 className="display text-[28px] text-volt">Request received.</h3>
+              <p className="mt-4 text-[15px] text-ink-soft leading-relaxed">
+                We got it. Expect a confirmation text shortly — if your slot&rsquo;s
+                taken we&rsquo;ll offer the closest one.
+              </p>
+            </motion.div>
+          ) : (
+            <div
+              onKeyDown={onKeyDown}
+              className="border border-hairline bg-paper-rise/50 p-7 md:p-9 min-h-[420px] flex flex-col"
+            >
+              {/* progress */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-ink-mute">
+                  {String(step + 1).padStart(2, "0")} / {String(STEP_COUNT).padStart(2, "0")}
+                </span>
+                {step > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => goTo(step - 1)}
+                    className="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute hover:text-volt transition-colors"
+                  >
+                    ← Back
+                  </button>
+                )}
+              </div>
+              <div className="h-px bg-hairline mb-8 relative overflow-hidden">
+                <motion.div
+                  className="absolute inset-y-0 left-0 bg-volt"
+                  animate={{ width: `${((step + 1) / STEP_COUNT) * 100}%` }}
+                  transition={{ duration: 0.4, ease }}
+                />
+              </div>
+
+              <div className="relative flex-1">
+                <AnimatePresence mode="wait" custom={direction}>
+                  <motion.div
+                    key={step}
+                    custom={direction}
+                    initial={{ opacity: 0, x: 44 * direction }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -44 * direction }}
+                    transition={{ duration: 0.35, ease }}
+                  >
+                    {step === 0 && (
+                      <div>
+                        <h3 className="display text-[26px] mb-6">
+                          Which detail are we doing?
+                        </h3>
+                        <Chips
+                          options={Object.keys(PACKAGES)}
+                          value={answers.package}
+                          onSelect={(v) => selectAndAdvance({ package: v })}
+                        />
+                      </div>
+                    )}
+                    {step === 1 && (
+                      <div>
+                        <h3 className="display text-[26px] mb-6">
+                          What are you driving?
+                        </h3>
+                        <Chips
+                          options={VEHICLES}
+                          value={answers.vehicle}
+                          onSelect={(v) => selectAndAdvance({ vehicle: v })}
+                        />
+                      </div>
+                    )}
+                    {step === 2 && (
+                      <div>
+                        <h3 className="display text-[26px] mb-6">
+                          When works for you?
+                        </h3>
+                        <label htmlFor="date" className={labelClass}>
+                          Preferred day
+                        </label>
+                        <input
+                          id="date"
+                          type="date"
+                          value={answers.date}
+                          onChange={(e) => set({ date: e.target.value })}
+                          className={`${inputClass} mb-7`}
+                        />
+                        <span className={labelClass}>Time window</span>
+                        <div className="flex flex-wrap gap-2.5 pt-3">
+                          {TIMES.map((t) => (
+                            <button
+                              key={t}
+                              type="button"
+                              onClick={() => set({ timeWindow: t })}
+                              className={`font-mono text-[11px] tracking-[0.1em] px-4 py-2.5 border transition-colors ${
+                                answers.timeWindow === t
+                                  ? "border-volt bg-volt text-paper"
+                                  : "border-hairline-strong text-ink-soft hover:border-volt"
+                              }`}
+                            >
+                              {t}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {step === 3 && (
+                      <div>
+                        <h3 className="display text-[26px] mb-6">
+                          Where&rsquo;s the car parked?
+                        </h3>
+                        <label htmlFor="zip" className={labelClass}>
+                          Zip code
+                        </label>
+                        <input
+                          id="zip"
+                          inputMode="numeric"
+                          pattern="[0-9]{5}"
+                          maxLength={5}
+                          value={answers.zip}
+                          onChange={(e) =>
+                            set({ zip: e.target.value.replace(/\D/g, "") })
+                          }
+                          placeholder="77584"
+                          autoFocus
+                          className={inputClass}
+                        />
+                        <p className="mt-4 text-[13px] text-ink-mute leading-relaxed">
+                          Inside 20 miles of Pearland is standard pricing — a
+                          little outside adds a flat $20 travel fee. We&rsquo;ll
+                          confirm either way.
+                        </p>
+                      </div>
+                    )}
+                    {step === 4 && (
+                      <div>
+                        <h3 className="display text-[26px] mb-6">
+                          How do we reach you?
+                        </h3>
+                        <label htmlFor="name" className={labelClass}>
+                          Name
+                        </label>
+                        <input
+                          id="name"
+                          value={answers.name}
+                          onChange={(e) => set({ name: e.target.value })}
+                          autoComplete="name"
+                          autoFocus
+                          className={`${inputClass} mb-7`}
+                        />
+                        <label htmlFor="phone" className={labelClass}>
+                          Phone
+                        </label>
+                        <input
+                          id="phone"
+                          type="tel"
+                          value={answers.phone}
+                          onChange={(e) => set({ phone: e.target.value })}
+                          autoComplete="tel"
+                          className={inputClass}
+                        />
+                      </div>
+                    )}
+                    {step === 5 && (
+                      <div>
+                        <h3 className="display text-[26px] mb-6">
+                          Anything we should know?
+                        </h3>
+                        <textarea
+                          rows={3}
+                          value={answers.notes}
+                          onChange={(e) => set({ notes: e.target.value })}
+                          placeholder="Pet hair, kid chaos, gate code process… (optional)"
+                          autoFocus
+                          className={`${inputClass} resize-none`}
+                        />
+                        {status === "error" && (
+                          <p className="mt-4 text-[13px] text-red-400">
+                            Something broke on our end — give it another shot
+                            in a minute.
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {stepError && (
+                <p className="mt-4 text-[13px] text-red-400">{stepError}</p>
+              )}
+
+              <div className="mt-8">
+                {step >= 2 && step < STEP_COUNT - 1 && (
+                  <button
+                    type="button"
+                    onClick={next}
+                    className="font-mono text-[11px] tracking-[0.28em] uppercase bg-ink text-paper px-10 py-4 hover:bg-volt transition-colors duration-300 w-full sm:w-auto"
+                  >
+                    Next
+                  </button>
+                )}
+                {step === STEP_COUNT - 1 && (
+                  <button
+                    type="button"
+                    onClick={submit}
+                    disabled={status === "sending"}
+                    className="font-mono text-[11px] tracking-[0.28em] uppercase bg-ink text-paper px-10 py-4 hover:bg-volt transition-colors duration-300 disabled:opacity-60 w-full sm:w-auto"
+                  >
+                    {status === "sending" ? "Sending…" : "Request booking"}
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

@@ -45,7 +45,7 @@ export function Header() {
         </nav>
         <a
           href="#book"
-          className="display text-[15px] tracking-[0.06em] bg-volt text-paper px-5 py-2.5 hover:bg-ink transition-colors"
+          className="display text-[15px] tracking-[0.06em] bg-volt text-paper px-5 py-2.5 shadow-hard-ink hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
         >
           Book now
         </a>

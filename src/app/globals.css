@@ -86,3 +86,68 @@ main > section:not(:last-of-type)::after {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ---- de-AI design layer ---- */
+
+/* film grain over everything */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* chrome / gloss text — shine is the product */
+.chrome-text {
+  background: linear-gradient(
+    180deg,
+    #e8ecf2 0%,
+    #ffffff 14%,
+    #c2c8d2 36%,
+    #6b7280 52%,
+    #2b3038 62%,
+    #5a626d 76%,
+    #d0d5dc 92%,
+    #ffffff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* hard offset shadows — poster, not SaaS */
+.shadow-hard-volt {
+  box-shadow: 5px 5px 0 0 var(--volt);
+}
+.shadow-hard-ink {
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+.shadow-hard-black {
+  box-shadow: 5px 5px 0 0 #000;
+}
+
+/* scrolling ticker */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  animation: marquee 24s linear infinite;
+  will-change: transform;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* notched card corner */
+.notch {
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+}

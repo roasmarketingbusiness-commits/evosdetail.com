@@ -106,22 +106,26 @@ export function Packages() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className={`relative flex flex-col p-7 md:p-8 border ${
+              className={`relative flex flex-col p-7 md:p-8 ${
                 pkg.popular
-                  ? "border-volt bg-paper-rise glow-volt"
-                  : "border-hairline bg-paper-rise/50"
+                  ? "border-2 border-volt bg-paper-rise shadow-hard-volt"
+                  : "border border-hairline-strong bg-paper-rise/50 notch"
               }`}
             >
               {pkg.popular && (
-                <span className="absolute -top-3 left-7 font-mono text-[10px] tracking-[0.22em] uppercase bg-volt text-paper px-3 py-1">
-                  Most popular
+                <span className="absolute -top-4 -right-3 rotate-[4deg] display text-[13px] tracking-[0.1em] bg-volt text-paper px-4 py-1.5 shadow-hard-black">
+                  MOST BOOKED
                 </span>
               )}
               <h3 className="display text-[24px] leading-tight">{pkg.name}</h3>
               <p className="mt-1 text-[14px] text-ink-mute">{pkg.tagline}</p>
               <div className="mt-6 flex items-baseline gap-2">
                 <span className="font-mono text-[12px] text-ink-mute">from</span>
-                <span className="display text-[44px] leading-none text-volt">
+                <span
+                  className={`display text-[48px] leading-none ${
+                    pkg.popular ? "text-volt" : "chrome-text"
+                  }`}
+                >
                   ${pkg.price[size]}
                 </span>
               </div>
@@ -135,10 +139,10 @@ export function Packages() {
               </ul>
               <a
                 href="#book"
-                className={`mt-8 display text-[15px] tracking-[0.06em] text-center px-6 py-3.5 transition-colors ${
+                className={`mt-8 display text-[15px] tracking-[0.06em] text-center px-6 py-3.5 ${
                   pkg.popular
-                    ? "bg-volt text-paper hover:bg-ink"
-                    : "border border-hairline-strong hover:border-volt hover:text-volt"
+                    ? "bg-volt text-paper shadow-hard-ink hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all"
+                    : "border border-hairline-strong hover:border-volt hover:text-volt transition-colors"
                 }`}
               >
                 Book this

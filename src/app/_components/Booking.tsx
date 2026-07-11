@@ -106,7 +106,18 @@ export function Booking() {
             </p>
           </motion.div>
         ) : (
-          <form onSubmit={handleSubmit} className="border border-hairline bg-paper-rise/50 p-7 md:p-9 space-y-7">
+          <form
+            onSubmit={handleSubmit}
+            className="border-2 border-dashed border-hairline-strong bg-paper-rise/50 p-7 md:p-9 space-y-7 relative"
+          >
+            <div className="flex items-center justify-between border-b border-hairline pb-4 -mt-1">
+              <span className="display text-[15px] tracking-[0.1em] text-volt">
+                WORK ORDER
+              </span>
+              <span className="font-mono text-[10px] tracking-[0.18em] text-ink-mute">
+                EVOS DETAIL — PEARLAND TX
+              </span>
+            </div>
             <div className="grid sm:grid-cols-2 gap-x-6 gap-y-7">
               <div>
                 <label htmlFor="name" className={labelClass}>

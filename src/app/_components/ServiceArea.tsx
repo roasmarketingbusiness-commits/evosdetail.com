@@ -74,7 +74,7 @@ export function ServiceArea() {
       />
       <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 grid md:grid-cols-2 gap-12 md:gap-16 items-center">
         <div>
-          <p className="font-mono text-[11px] tracking-[0.32em] uppercase text-volt mb-4">
+          <p className="font-medium text-[13px] text-volt mb-4">
             03 — Service area
           </p>
           <h2 className="display leading-[0.95]" style={{ fontSize: "clamp(36px, 5vw, 64px)" }}>
@@ -104,10 +104,10 @@ export function ServiceArea() {
         >
           <div ref={mapEl} className="h-[420px] md:h-[480px] w-full" />
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-hairline px-5 py-3">
-            <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-ink-mute">
+            <span className="font-medium text-[12px] text-ink-mute">
               <span className="text-volt">●</span> In the circle — standard pricing
             </span>
-            <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-ink-mute">
+            <span className="font-medium text-[12px] text-ink-mute">
               ○ Outside — +$20 travel
             </span>
           </div>

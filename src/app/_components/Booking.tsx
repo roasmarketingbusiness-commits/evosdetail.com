@@ -17,7 +17,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const inputClass =
   "w-full bg-transparent border-b border-hairline-strong focus:border-volt outline-none py-3 text-[17px] placeholder:text-ink-mute/50 transition-colors";
 const labelClass =
-  "font-mono text-[10px] tracking-[0.25em] uppercase text-ink-mute";
+  "font-medium text-[12px] text-ink-mute";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -59,7 +59,7 @@ function Chips({
           key={option}
           type="button"
           onClick={() => onSelect(option)}
-          className={`text-left font-mono text-[12px] tracking-[0.12em] px-5 py-4 border transition-colors duration-200 ${
+          className={`text-left font-medium text-[12px] px-5 py-4 border transition-colors duration-200 ${
             value === option
               ? "border-volt bg-volt text-paper"
               : "border-hairline-strong text-ink-soft hover:border-volt"
@@ -206,7 +206,7 @@ export function Booking() {
       />
       <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 grid md:grid-cols-[1fr_1.2fr] gap-12 md:gap-16 items-start">
         <div>
-          <p className="font-mono text-[11px] tracking-[0.32em] uppercase text-volt mb-4">
+          <p className="font-medium text-[13px] text-volt mb-4">
             05 — Book
           </p>
           <h2 className="display leading-[0.95]" style={{ fontSize: "clamp(36px, 5vw, 64px)" }}>
@@ -221,13 +221,13 @@ export function Booking() {
 
           {/* running summary */}
           <div className="mt-10 border border-hairline bg-paper-rise/40 p-6">
-            <p className="font-mono text-[10px] tracking-[0.25em] uppercase text-ink-mute mb-5">
+            <p className="font-medium text-[12px] text-ink-mute mb-5">
               Your detail
             </p>
             <dl className="space-y-3">
               {summaryRows.map(([label, value]) => (
                 <div key={label} className="flex items-baseline justify-between gap-6">
-                  <dt className="font-mono text-[11px] tracking-[0.14em] uppercase text-ink-mute">
+                  <dt className="font-medium text-[13px] text-ink-mute">
                     {label}
                   </dt>
                   <dd
@@ -249,7 +249,7 @@ export function Booking() {
                   className="overflow-hidden"
                 >
                   <div className="mt-5 pt-5 border-t border-hairline flex items-baseline justify-between">
-                    <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-ink-mute">
+                    <span className="font-medium text-[13px] text-ink-mute">
                       Starting at
                     </span>
                     <span className="display text-[34px] leading-none text-volt">
@@ -282,14 +282,14 @@ export function Booking() {
             >
               {/* progress */}
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-ink-mute">
+                <span className="font-medium text-[12px] text-ink-mute">
                   {String(step + 1).padStart(2, "0")} / {String(STEP_COUNT).padStart(2, "0")}
                 </span>
                 {step > 0 && (
                   <button
                     type="button"
                     onClick={() => goTo(step - 1)}
-                    className="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute hover:text-volt transition-colors"
+                    className="font-medium text-[12px] text-ink-mute hover:text-volt transition-colors"
                   >
                     ← Back
                   </button>
@@ -359,7 +359,7 @@ export function Booking() {
                               key={t}
                               type="button"
                               onClick={() => set({ timeWindow: t })}
-                              className={`font-mono text-[11px] tracking-[0.1em] px-4 py-2.5 border transition-colors ${
+                              className={`font-medium text-[13px] px-4 py-2.5 border transition-colors ${
                                 answers.timeWindow === t
                                   ? "border-volt bg-volt text-paper"
                                   : "border-hairline-strong text-ink-soft hover:border-volt"
@@ -462,7 +462,7 @@ export function Booking() {
                   <button
                     type="button"
                     onClick={next}
-                    className="font-mono text-[11px] tracking-[0.28em] uppercase bg-ink text-paper px-10 py-4 hover:bg-volt transition-colors duration-300 w-full sm:w-auto"
+                    className="font-medium text-[13px] bg-ink text-paper px-10 py-4 hover:bg-volt transition-colors duration-300 w-full sm:w-auto"
                   >
                     Next
                   </button>
@@ -472,7 +472,7 @@ export function Booking() {
                     type="button"
                     onClick={submit}
                     disabled={status === "sending"}
-                    className="font-mono text-[11px] tracking-[0.28em] uppercase bg-ink text-paper px-10 py-4 hover:bg-volt transition-colors duration-300 disabled:opacity-60 w-full sm:w-auto"
+                    className="font-medium text-[13px] bg-ink text-paper px-10 py-4 hover:bg-volt transition-colors duration-300 disabled:opacity-60 w-full sm:w-auto"
                   >
                     {status === "sending" ? "Sending…" : "Request booking"}
                   </button>

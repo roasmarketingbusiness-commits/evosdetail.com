@@ -23,7 +23,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-mono text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-volt mb-8"
+            className="font-medium text-[12px] md:text-[13px] text-volt mb-8"
           >
             Mobile detailing — Pearland, TX
           </motion.p>
@@ -34,7 +34,7 @@ export function Hero() {
             className="display text-balance leading-[1.04]"
             style={{ fontSize: "clamp(44px, 6.5vw, 92px)" }}
           >
-            Your car, <em className="text-volt font-normal">detailed.</em>{" "}
+            Your car, <em className="text-volt not-italic">detailed.</em>{" "}
             Your driveway.
           </motion.h1>
           <motion.p
@@ -55,13 +55,13 @@ export function Hero() {
           >
             <a
               href="#book"
-              className="font-mono text-[11px] tracking-[0.28em] uppercase bg-ink text-paper px-10 py-4.5 hover:bg-volt transition-colors duration-300"
+              className="font-medium text-[13px] bg-ink text-paper px-10 py-4.5 hover:bg-volt transition-colors duration-300"
             >
               Book your detail
             </a>
             <a
               href="#packages"
-              className="font-mono text-[11px] tracking-[0.28em] uppercase border border-hairline-strong px-10 py-4.5 hover:border-volt hover:text-volt transition-colors duration-300"
+              className="font-medium text-[13px] border border-hairline-strong px-10 py-4.5 hover:border-volt hover:text-volt transition-colors duration-300"
             >
               View packages
             </a>
@@ -101,10 +101,10 @@ export function Hero() {
             <span key={copy} className="inline-flex items-center">
               {TICKER.map((item) => (
                 <span key={item} className="inline-flex items-center">
-                  <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-ink-mute px-8">
+                  <span className="font-medium text-[13px] text-ink-mute px-8">
                     {item}
                   </span>
-                  <span className="text-volt text-[9px]">✦</span>
+                  <span className="text-volt text-[13px]">✦</span>
                 </span>
               ))}
             </span>

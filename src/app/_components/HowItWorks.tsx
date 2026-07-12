@@ -24,7 +24,7 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="relative py-24 md:py-32 overflow-hidden">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
-        <p className="font-mono text-[11px] tracking-[0.32em] uppercase text-volt mb-4">
+        <p className="font-medium text-[13px] text-volt mb-4">
           02 — How it works
         </p>
         <h2 className="display leading-[0.95] mb-14" style={{ fontSize: "clamp(36px, 5vw, 64px)" }}>

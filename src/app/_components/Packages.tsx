@@ -65,7 +65,7 @@ export function Packages() {
   return (
     <section id="packages" className="relative py-24 md:py-32 overflow-hidden">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
-        <p className="font-mono text-[11px] tracking-[0.32em] uppercase text-volt mb-4">
+        <p className="font-medium text-[13px] text-volt mb-4">
           01 — Packages
         </p>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
@@ -86,7 +86,7 @@ export function Packages() {
               <button
                 key={value}
                 onClick={() => setSize(value)}
-                className={`font-mono text-[11px] tracking-[0.18em] uppercase px-5 py-3 transition-colors ${
+                className={`font-medium text-[13px] px-5 py-3 transition-colors ${
                   size === value
                     ? "bg-volt text-paper"
                     : "text-ink-mute hover:text-ink"
@@ -113,14 +113,14 @@ export function Packages() {
               }`}
             >
               {pkg.popular && (
-                <span className="absolute -top-[9px] left-1/2 -translate-x-1/2 font-mono text-[9px] tracking-[0.3em] uppercase text-volt bg-paper px-4">
+                <span className="absolute -top-[9px] left-1/2 -translate-x-1/2 font-medium text-[13px] text-volt bg-paper px-4">
                   Most booked
                 </span>
               )}
               <h3 className="display text-[24px] leading-tight">{pkg.name}</h3>
               <p className="mt-1 text-[14px] text-ink-mute">{pkg.tagline}</p>
               <div className="mt-6 flex items-baseline gap-2">
-                <span className="font-mono text-[12px] text-ink-mute">from</span>
+                <span className="font-medium text-[12px] text-ink-mute">from</span>
                 <span className="display text-[46px] leading-none text-volt">
                   ${pkg.price[size]}
                 </span>
@@ -135,7 +135,7 @@ export function Packages() {
               </ul>
               <a
                 href="#book"
-                className={`mt-8 font-mono text-[11px] tracking-[0.25em] uppercase text-center px-6 py-4 transition-colors duration-300 ${
+                className={`mt-8 font-medium text-[13px] text-center px-6 py-4 transition-colors duration-300 ${
                   pkg.popular
                     ? "bg-volt text-paper hover:bg-ink"
                     : "border border-hairline-strong hover:border-volt hover:text-volt"
@@ -148,7 +148,7 @@ export function Packages() {
         </div>
 
         <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border border-hairline px-6 py-5">
-          <span className="font-mono text-[11px] tracking-[0.22em] uppercase text-ink-mute">
+          <span className="font-medium text-[13px] text-ink-mute">
             Add-ons
           </span>
           {ADDONS.map((addon) => (

@@ -29,8 +29,8 @@ export function Header() {
     >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
         <a href="#top" className="flex items-baseline gap-2" aria-label="EVOS Detail — home">
-          <span className="display text-[24px] leading-none tracking-[0.08em]">EVOS</span>
-          <span className="display text-[24px] leading-none tracking-[0.08em] text-volt italic">
+          <span className="display text-[24px] leading-none">EVOS</span>
+          <span className="display text-[24px] leading-none text-volt">
             Detail
           </span>
         </a>
@@ -39,7 +39,7 @@ export function Header() {
             <a
               key={item.href}
               href={item.href}
-              className="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute hover:text-ink transition-colors"
+              className="font-medium text-[13px] text-ink-mute hover:text-ink transition-colors"
             >
               {item.label}
             </a>
@@ -47,7 +47,7 @@ export function Header() {
         </nav>
         <a
           href="#book"
-          className="font-mono text-[10px] tracking-[0.25em] uppercase bg-ink text-paper px-6 py-3 hover:bg-volt transition-colors duration-300"
+          className="font-medium text-[12px] bg-ink text-paper px-6 py-3 hover:bg-volt transition-colors duration-300"
         >
           Book now
         </a>

@@ -43,6 +43,113 @@ const EMPTY: Answers = {
   notes: "",
 };
 
+function pad(n: number) {
+  return String(n).padStart(2, "0");
+}
+
+function toKey(d: Date) {
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+const MONTHS = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+
+function Calendar({
+  value,
+  onSelect,
+}: {
+  value: string;
+  onSelect: (v: string) => void;
+}) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const initial = value ? new Date(value + "T00:00:00") : today;
+  const [viewYear, setViewYear] = useState(initial.getFullYear());
+  const [viewMonth, setViewMonth] = useState(initial.getMonth());
+
+  const firstDay = new Date(viewYear, viewMonth, 1);
+  const startWeekday = firstDay.getDay();
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const atCurrentMonth =
+    viewYear === today.getFullYear() && viewMonth === today.getMonth();
+
+  function shiftMonth(delta: number) {
+    const d = new Date(viewYear, viewMonth + delta, 1);
+    setViewYear(d.getFullYear());
+    setViewMonth(d.getMonth());
+  }
+
+  const cells: Array<Date | null> = [
+    ...Array.from({ length: startWeekday }, () => null),
+    ...Array.from({ length: daysInMonth }, (_, i) => new Date(viewYear, viewMonth, i + 1)),
+  ];
+
+  return (
+    <div className="border border-hairline bg-paper p-4 max-w-[340px]">
+      <div className="flex items-center justify-between mb-3">
+        <button
+          type="button"
+          onClick={() => shiftMonth(-1)}
+          disabled={atCurrentMonth}
+          aria-label="Previous month"
+          className="px-3 py-1 text-ink-mute hover:text-volt transition-colors disabled:opacity-30 disabled:hover:text-ink-mute"
+        >
+          ‹
+        </button>
+        <span className="font-medium text-[14px]">
+          {MONTHS[viewMonth]} {viewYear}
+        </span>
+        <button
+          type="button"
+          onClick={() => shiftMonth(1)}
+          aria-label="Next month"
+          className="px-3 py-1 text-ink-mute hover:text-volt transition-colors"
+        >
+          ›
+        </button>
+      </div>
+      <div className="grid grid-cols-7 gap-1 mb-1">
+        {WEEKDAYS.map((d) => (
+          <span key={d} className="text-center text-[11px] text-ink-faint py-1">
+            {d}
+          </span>
+        ))}
+      </div>
+      <div className="grid grid-cols-7 gap-1">
+        {cells.map((date, i) => {
+          if (!date) return <span key={`blank-${i}`} />;
+          const key = toKey(date);
+          const isPast = date < today;
+          const isSelected = value === key;
+          const isToday = key === toKey(today);
+          return (
+            <button
+              key={key}
+              type="button"
+              disabled={isPast}
+              onClick={() => onSelect(key)}
+              className={`aspect-square text-[13px] transition-colors ${
+                isSelected
+                  ? "bg-volt text-paper font-medium"
+                  : isPast
+                    ? "text-ink-faint/50 cursor-not-allowed"
+                    : `text-ink-soft hover:bg-paper-rise hover:text-ink ${
+                        isToday ? "border border-hairline-strong" : ""
+                      }`
+              }`}
+            >
+              {date.getDate()}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Chips({
   options,
   value,
@@ -342,16 +449,13 @@ export function Booking() {
                         <h3 className="display text-[26px] mb-6">
                           When works for you?
                         </h3>
-                        <label htmlFor="date" className={labelClass}>
-                          Preferred day
-                        </label>
-                        <input
-                          id="date"
-                          type="date"
-                          value={answers.date}
-                          onChange={(e) => set({ date: e.target.value })}
-                          className={`${inputClass} mb-7`}
-                        />
+                        <span className={labelClass}>Preferred day</span>
+                        <div className="mt-3 mb-7">
+                          <Calendar
+                            value={answers.date}
+                            onSelect={(v) => set({ date: v })}
+                          />
+                        </div>
                         <span className={labelClass}>Time window</span>
                         <div className="flex flex-wrap gap-2.5 pt-3">
                           {TIMES.map((t) => (

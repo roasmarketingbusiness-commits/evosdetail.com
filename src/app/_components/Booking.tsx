@@ -138,12 +138,30 @@ export function Booking() {
     if (status === "sending") return;
     setStatus("sending");
     try {
-      const res = await fetch("/api/book", {
+      // Straight from the browser: FormSubmit blocks datacenter IPs, so a
+      // server-side relay (e.g. through our own API route) never delivers.
+      // The random alias keeps the destination inbox out of the page source.
+      const res = await fetch("https://formsubmit.co/ajax/11151ef754bd28b6ca6db1c46862bf07", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...answers, company: "" }),
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          _subject: `EVOS booking: ${answers.package} — ${answers.name}`,
+          _template: "table",
+          name: answers.name,
+          phone: answers.phone,
+          zip: answers.zip,
+          package: answers.package,
+          vehicle: answers.vehicle,
+          preferred_day: answers.date,
+          time_window: answers.timeWindow,
+          notes: answers.notes || "—",
+        }),
       });
-      if (!res.ok) throw new Error(`status ${res.status}`);
+      // FormSubmit returns HTTP 200 even on refusal — check the body
+      const body = await res.json().catch(() => null);
+      if (!res.ok || !body || String(body.success) !== "true") {
+        throw new Error(body?.message || `status ${res.status}`);
+      }
       setStatus("sent");
     } catch {
       setStatus("error");

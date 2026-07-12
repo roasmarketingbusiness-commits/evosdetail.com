@@ -269,6 +269,13 @@ export function Booking() {
       if (!res.ok || !body || String(body.success) !== "true") {
         throw new Error(body?.message || `status ${res.status}`);
       }
+      // best-effort Telegram ping to the crew — email above is the
+      // system of record, so a Telegram hiccup never fails the booking
+      fetch("/api/telegram", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...answers, date: prettyDate, company: "" }),
+      }).catch(() => {});
       setStatus("sent");
     } catch {
       setStatus("error");

@@ -12,6 +12,12 @@ export function Footer() {
         </div>
         <div className="flex items-center gap-8">
           <a
+            href="tel:+18323875145"
+            className="font-medium text-[13px] text-ink-mute hover:text-volt transition-colors"
+          >
+            (832) 387-5145
+          </a>
+          <a
             href="#book"
             className="font-medium text-[13px] text-ink-mute hover:text-volt transition-colors"
           >

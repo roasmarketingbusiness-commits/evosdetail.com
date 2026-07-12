@@ -332,6 +332,13 @@ export function Booking() {
             Six quick questions. We confirm your slot by text — usually within
             a couple hours. No payment until the job&rsquo;s done.
           </p>
+          <p className="mt-3 max-w-[42ch] text-[15px] text-ink-soft leading-relaxed">
+            Prefer to talk? Call or text{" "}
+            <a href="tel:+18323875145" className="text-volt hover:underline">
+              (832) 387-5145
+            </a>
+            .
+          </p>
 
           {/* running summary */}
           <div className="mt-10 border border-hairline bg-paper-rise/40 p-6">

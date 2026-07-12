@@ -41,6 +41,36 @@ export default function RootLayout({
     >
       <body className="relative min-h-full text-ink overflow-x-hidden">
         {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "AutoWash",
+              name: "EVOS Detail",
+              description:
+                "Premium mobile car detailing — we come to you. Interior, exterior, and full details across Greater Houston.",
+              url: "https://evosdetail.com",
+              telephone: "+18323875145",
+              priceRange: "$99–$239",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Pearland",
+                addressRegion: "TX",
+                addressCountry: "US",
+              },
+              areaServed: {
+                "@type": "GeoCircle",
+                geoMidpoint: {
+                  "@type": "GeoCoordinates",
+                  latitude: 29.5636,
+                  longitude: -95.286,
+                },
+                geoRadius: "32000",
+              },
+            }),
+          }}
+        />
       </body>
     </html>
   );

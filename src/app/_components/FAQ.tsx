@@ -40,7 +40,7 @@ export function FAQ() {
   return (
     <section id="faq" className="relative py-24 md:py-32 overflow-hidden">
       <div className="mx-auto max-w-[840px] px-6 md:px-10">
-        <p className="font-medium text-[13px] text-volt mb-4">
+        <p className="eyebrow text-volt mb-4">
           04 — FAQ
         </p>
         <h2 className="display leading-[0.95] mb-12" style={{ fontSize: "clamp(36px, 5vw, 64px)" }}>

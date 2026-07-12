@@ -74,7 +74,7 @@ export function ServiceArea() {
       />
       <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 grid md:grid-cols-2 gap-12 md:gap-16 items-center">
         <div>
-          <p className="font-medium text-[13px] text-volt mb-4">
+          <p className="eyebrow text-volt mb-4">
             03 — Service area
           </p>
           <h2 className="display leading-[0.95]" style={{ fontSize: "clamp(36px, 5vw, 64px)" }}>

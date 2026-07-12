@@ -47,7 +47,7 @@ export function Header() {
         </nav>
         <a
           href="#book"
-          className="font-medium text-[12px] bg-ink text-paper px-6 py-3 hover:bg-volt transition-colors duration-300"
+          className="btn-glass-volt font-medium text-[12px] px-6 py-3"
         >
           Book now
         </a>

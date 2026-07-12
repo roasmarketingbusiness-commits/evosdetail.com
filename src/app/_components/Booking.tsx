@@ -313,7 +313,7 @@ export function Booking() {
       />
       <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 grid md:grid-cols-[1fr_1.2fr] gap-12 md:gap-16 items-start">
         <div>
-          <p className="font-medium text-[13px] text-volt mb-4">
+          <p className="eyebrow text-volt mb-4">
             05 — Book
           </p>
           <h2 className="display leading-[0.95]" style={{ fontSize: "clamp(36px, 5vw, 64px)" }}>
@@ -328,7 +328,7 @@ export function Booking() {
 
           {/* running summary */}
           <div className="mt-10 border border-hairline bg-paper-rise/40 p-6">
-            <p className="font-medium text-[12px] text-ink-mute mb-5">
+            <p className="eyebrow text-ink-mute mb-5">
               Your detail
             </p>
             <dl className="space-y-3">
@@ -566,7 +566,7 @@ export function Booking() {
                   <button
                     type="button"
                     onClick={next}
-                    className="font-medium text-[13px] bg-ink text-paper px-10 py-4 hover:bg-volt transition-colors duration-300 w-full sm:w-auto"
+                    className="btn-glass-volt font-medium text-[13px] px-10 py-4 w-full sm:w-auto"
                   >
                     Next
                   </button>
@@ -576,7 +576,7 @@ export function Booking() {
                     type="button"
                     onClick={submit}
                     disabled={status === "sending"}
-                    className="font-medium text-[13px] bg-ink text-paper px-10 py-4 hover:bg-volt transition-colors duration-300 disabled:opacity-60 w-full sm:w-auto"
+                    className="btn-glass-volt font-medium text-[13px] px-10 py-4 disabled:opacity-60 w-full sm:w-auto"
                   >
                     {status === "sending" ? "Sending…" : "Request booking"}
                   </button>

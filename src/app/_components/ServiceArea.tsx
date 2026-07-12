@@ -36,16 +36,16 @@ export function ServiceArea() {
 
       const zone = L.circle(PEARLAND, {
         radius: RADIUS_METERS,
-        color: "#a78bfa",
+        color: "#c8a656",
         weight: 2,
-        fillColor: "#a78bfa",
+        fillColor: "#c8a656",
         fillOpacity: 0.12,
       }).addTo(map);
 
       L.marker(PEARLAND, {
         icon: L.divIcon({
           className: "",
-          html: '<div style="width:18px;height:18px;border-radius:50%;background:#a78bfa;border:3px solid #060607;box-shadow:0 0 0 2px #a78bfa"></div>',
+          html: '<div style="width:18px;height:18px;border-radius:50%;background:#c8a656;border:3px solid #060607;box-shadow:0 0 0 2px #c8a656"></div>',
           iconSize: [18, 18],
           iconAnchor: [9, 9],
         }),

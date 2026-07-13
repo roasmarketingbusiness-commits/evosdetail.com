@@ -77,8 +77,8 @@ export function Hero() {
         >
           <div className="rotate-x-20 skew-x-12 mask-b-from-55% mask-b-to-100% mask-r-from-75% pl-6 pt-10">
             <Image
-              src="/hero-car.jpg"
-              alt="Freshly detailed car at dusk"
+              src="/hero-car-suds.jpg"
+              alt="Black Porsche covered in suds during a detail"
               width={1600}
               height={1140}
               priority

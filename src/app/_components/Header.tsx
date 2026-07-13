@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const NAV = [
   { label: "Packages", href: "#packages" },
@@ -28,11 +29,15 @@ export function Header() {
       }`}
     >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
-        <a href="#top" className="flex items-baseline gap-2" aria-label="EVOS Detail — home">
-          <span className="display text-[24px] leading-none">EVOS</span>
-          <span className="display text-[24px] leading-none text-volt">
-            Detail
-          </span>
+        <a href="#top" className="flex items-center" aria-label="EVOS Detail — home">
+          <Image
+            src="/evos-logo-header.png"
+            alt="EVOS Detail"
+            width={409}
+            height={200}
+            priority
+            className="h-11 md:h-14 w-auto"
+          />
         </a>
         <nav className="hidden md:flex items-center gap-8">
           {NAV.map((item) => (

@@ -73,18 +73,16 @@ export function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8, ease }}
-          className="perspective-distant mt-4 md:mt-0 pl-8 lg:pl-40"
+          className="mx-auto mt-14 md:mt-20 max-w-[980px]"
         >
-          <div className="rotate-x-20 skew-x-12 mask-b-from-55% mask-b-to-100% mask-r-from-75% pl-6 pt-10">
-            <Image
-              src="/hero-car-suds.jpg"
-              alt="Black Porsche covered in suds during a detail"
-              width={1600}
-              height={1140}
-              priority
-              className="rounded-sm border border-hairline-strong shadow-2xl shadow-black/60"
-            />
-          </div>
+          <Image
+            src="/hero-car-suds.jpg"
+            alt="Black Porsche covered in suds during a detail"
+            width={1600}
+            height={1140}
+            priority
+            className="w-full h-auto rounded-sm border border-hairline-strong shadow-2xl shadow-black/60"
+          />
         </motion.div>
       </div>
 
@@ -93,7 +91,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.1 }}
-        className="marquee relative z-10 border-t border-hairline py-5 -mt-10 md:-mt-24 bg-paper/60 backdrop-blur-sm"
+        className="marquee relative z-10 border-t border-hairline py-5 mt-14 md:mt-20 bg-paper/60 backdrop-blur-sm"
         aria-hidden
       >
         <div className="marquee-track">

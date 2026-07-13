@@ -1,11 +1,17 @@
+import Image from "next/image";
+
 export function Footer() {
   return (
     <footer className="relative border-t border-hairline">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 py-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         <div>
-          <p className="display text-[22px] leading-none">
-            EVOS <span className="text-volt">DETAIL</span>
-          </p>
+          <Image
+            src="/evos-logo-header-2.png"
+            alt="EVOS Detail"
+            width={596}
+            height={200}
+            className="h-[65px] w-auto"
+          />
           <p className="mt-3 font-medium text-[13px] text-ink-mute">
             Mobile detailing — Greater Houston, TX
           </p>

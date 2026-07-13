@@ -36,7 +36,7 @@ export function Header() {
             width={596}
             height={200}
             priority
-            className="h-14 md:h-[4.25rem] w-auto"
+            className="h-12 md:h-[70px] w-auto"
           />
         </a>
         <nav className="hidden md:flex items-center gap-8">

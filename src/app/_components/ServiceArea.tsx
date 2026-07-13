@@ -100,7 +100,7 @@ export function ServiceArea() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="border border-hairline bg-paper-rise/40"
+          className="isolate border border-hairline bg-paper-rise/40"
         >
           <div ref={mapEl} className="h-[420px] md:h-[480px] w-full" />
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-hairline px-5 py-3">

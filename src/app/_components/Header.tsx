@@ -31,10 +31,10 @@ export function Header() {
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
         <a href="#top" className="flex items-center" aria-label="EVOS Detail — home">
           <Image
-            src="/evos-logo-header.png"
+            src="/evos-logo-main.png"
             alt="EVOS Detail"
-            width={409}
-            height={200}
+            width={1536}
+            height={1024}
             priority
             className="h-11 md:h-14 w-auto"
           />

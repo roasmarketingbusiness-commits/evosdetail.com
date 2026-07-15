@@ -9,9 +9,14 @@ const PACKAGES: Record<string, { sedan: number; suv: number }> = {
   "The Full EVOS": { sedan: 189, suv: 239 },
 };
 const VEHICLES = ["Sedan / Coupe", "SUV / Truck"];
+const CONDITIONS = [
+  "Lightly lived-in — just needs a refresh",
+  "Pretty dirty — it’s been a while",
+  "Send help — kids, pets, or serious buildup",
+];
 const TIMES = ["Morning (8–11)", "Midday (11–2)", "Afternoon (2–6)"];
 
-const STEP_COUNT = 6;
+const STEP_COUNT = 7;
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const inputClass =
@@ -24,6 +29,7 @@ type Status = "idle" | "sending" | "sent" | "error";
 interface Answers {
   package: string;
   vehicle: string;
+  condition: string;
   date: string;
   timeWindow: string;
   zip: string;
@@ -35,6 +41,7 @@ interface Answers {
 const EMPTY: Answers = {
   package: "",
   vehicle: "",
+  condition: "",
   date: "",
   timeWindow: "",
   zip: "",
@@ -209,12 +216,14 @@ export function Booking() {
       case 1:
         return answers.vehicle ? "" : "Pick your vehicle type.";
       case 2:
+        return answers.condition ? "" : "Pick a level — no judgment.";
+      case 3:
         return answers.date && answers.timeWindow
           ? ""
           : "Pick a day and a time window.";
-      case 3:
-        return /^\d{5}$/.test(answers.zip) ? "" : "Enter a 5-digit zip code.";
       case 4:
+        return /^\d{5}$/.test(answers.zip) ? "" : "Enter a 5-digit zip code.";
+      case 5:
         return answers.name.trim() && answers.phone.trim().length >= 7
           ? ""
           : "We need a name and a phone number to confirm your booking.";
@@ -259,6 +268,7 @@ export function Booking() {
           zip: answers.zip,
           package: answers.package,
           vehicle: answers.vehicle,
+          condition: answers.condition,
           preferred_day: answers.date,
           time_window: answers.timeWindow,
           notes: answers.notes || "—",
@@ -299,6 +309,7 @@ export function Booking() {
   const summaryRows: Array<[string, string]> = [
     ["Package", answers.package || "—"],
     ["Vehicle", answers.vehicle || "—"],
+    ["Condition", answers.condition ? answers.condition.split(" — ")[0] : "—"],
     [
       "When",
       prettyDate
@@ -329,8 +340,8 @@ export function Booking() {
             your detail.
           </h2>
           <p className="mt-6 max-w-[42ch] text-[15px] text-ink-soft leading-relaxed">
-            Six quick questions. We confirm your slot by text — usually within
-            a couple hours. No payment until the job&rsquo;s done.
+            Seven quick questions. We confirm your slot by text — usually
+            within a couple hours. No payment until the job&rsquo;s done.
           </p>
           <p className="mt-3 max-w-[42ch] text-[15px] text-ink-soft leading-relaxed">
             Prefer to talk? Call or text{" "}
@@ -461,6 +472,18 @@ export function Booking() {
                     {step === 2 && (
                       <div>
                         <h3 className="display text-[26px] mb-6">
+                          How dirty are we talking?
+                        </h3>
+                        <Chips
+                          options={CONDITIONS}
+                          value={answers.condition}
+                          onSelect={(v) => selectAndAdvance({ condition: v })}
+                        />
+                      </div>
+                    )}
+                    {step === 3 && (
+                      <div>
+                        <h3 className="display text-[26px] mb-6">
                           When works for you?
                         </h3>
                         <span className={labelClass}>Preferred day</span>
@@ -489,7 +512,7 @@ export function Booking() {
                         </div>
                       </div>
                     )}
-                    {step === 3 && (
+                    {step === 4 && (
                       <div>
                         <h3 className="display text-[26px] mb-6">
                           Where&rsquo;s the car parked?
@@ -517,7 +540,7 @@ export function Booking() {
                         </p>
                       </div>
                     )}
-                    {step === 4 && (
+                    {step === 5 && (
                       <div>
                         <h3 className="display text-[26px] mb-6">
                           How do we reach you?
@@ -546,7 +569,7 @@ export function Booking() {
                         />
                       </div>
                     )}
-                    {step === 5 && (
+                    {step === 6 && (
                       <div>
                         <h3 className="display text-[26px] mb-6">
                           Anything we should know?
@@ -576,7 +599,7 @@ export function Booking() {
               )}
 
               <div className="mt-8">
-                {step >= 2 && step < STEP_COUNT - 1 && (
+                {step >= 3 && step < STEP_COUNT - 1 && (
                   <button
                     type="button"
                     onClick={next}

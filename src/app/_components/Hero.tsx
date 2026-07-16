@@ -6,6 +6,7 @@ import Image from "next/image";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const TICKER = [
+  "$40 off — first 10 bookings",
   "Interior",
   "Exterior",
   "The Full EVOS",
@@ -19,29 +20,13 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden">
       <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 pt-36 md:pt-44">
         <div className="relative z-10 mx-auto max-w-[820px] text-center">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-7 flex justify-center"
-          >
-            <a
-              href="#book"
-              className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border border-volt/50 bg-volt/5 px-5 py-2.5"
-            >
-              <span className="eyebrow text-volt">Launch special</span>
-              <span className="text-[13px] text-ink-soft">
-                $40 off The Full EVOS — first 10 bookings
-              </span>
-            </a>
-          </motion.div>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="eyebrow text-volt mb-8"
           >
-            Mobile detailing — Pearland, TX
+            Launch special — Mobile detailing, Pearland TX
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
@@ -50,8 +35,14 @@ export function Hero() {
             className="display text-balance leading-[1.04]"
             style={{ fontSize: "clamp(44px, 6.5vw, 92px)" }}
           >
-            The best your car has ever looked, without leaving the{" "}
-            <em className="text-volt not-italic">driveway.</em>
+            A real detail at your driveway.{" "}
+            <span
+              className="text-ink-faint line-through"
+              style={{ fontSize: "0.55em" }}
+            >
+              $169
+            </span>{" "}
+            <em className="text-volt not-italic">$129.</em>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -59,8 +50,9 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.45, ease }}
             className="mx-auto mt-8 max-w-[52ch] text-[16px] md:text-[17px] text-ink-soft leading-relaxed"
           >
-            Not a gas station vacuum. A real detail — seats, carpets, paint,
-            the works. We come to you anywhere in the Pearland area.
+            Not a gas station vacuum — the full interior + exterior, seats to
+            paint. First 10 bookings save $40 on any vehicle size, anywhere in
+            the Pearland area.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -72,7 +64,7 @@ export function Hero() {
               href="#book"
               className="btn-glass-volt font-medium text-[13px] px-10 py-4.5"
             >
-              Book your detail
+              Book for $129
             </a>
             <a
               href="#packages"

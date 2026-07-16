@@ -19,6 +19,22 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden">
       <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 pt-36 md:pt-44">
         <div className="relative z-10 mx-auto max-w-[820px] text-center">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-7 flex justify-center"
+          >
+            <a
+              href="#book"
+              className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border border-volt/50 bg-volt/5 px-5 py-2.5"
+            >
+              <span className="eyebrow text-volt">Launch special</span>
+              <span className="text-[13px] text-ink-soft">
+                $40 off The Full EVOS — first 10 bookings
+              </span>
+            </a>
+          </motion.div>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

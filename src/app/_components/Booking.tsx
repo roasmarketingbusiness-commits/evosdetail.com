@@ -207,6 +207,11 @@ export function Booking() {
         ]
       : null;
 
+  const LAUNCH_DISCOUNT = 40;
+  const isLaunchDeal = answers.package === "The Full EVOS";
+  const finalPrice =
+    price !== null && isLaunchDeal ? price - LAUNCH_DISCOUNT : price;
+
   function goTo(next: number) {
     setDirection(next > step ? 1 : -1);
     setStepError("");
@@ -388,10 +393,22 @@ export function Booking() {
                     <span className="font-medium text-[13px] text-ink-mute">
                       Starting at
                     </span>
-                    <span className="display text-[34px] leading-none text-volt">
-                      ${price}
+                    <span className="flex items-baseline gap-2">
+                      {isLaunchDeal && (
+                        <span className="text-[16px] text-ink-faint line-through">
+                          ${price}
+                        </span>
+                      )}
+                      <span className="display text-[34px] leading-none text-volt">
+                        ${finalPrice}
+                      </span>
                     </span>
                   </div>
+                  {isLaunchDeal && (
+                    <p className="mt-2 text-right text-[12px] text-volt">
+                      Launch special applied — first 10 bookings
+                    </p>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

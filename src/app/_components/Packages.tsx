@@ -54,6 +54,8 @@ const PACKAGES: Package[] = [
   },
 ];
 
+const LAUNCH_DISCOUNT = 40;
+
 const ADDONS = [
   { name: "Pet hair removal", price: 39 },
   { name: "Engine bay detail", price: 39 },
@@ -169,14 +171,24 @@ export function Packages() {
               <p className="mt-1 text-[14px] text-ink-mute">{pkg.tagline}</p>
               <div className="mt-6 flex items-baseline gap-2">
                 <span className="font-medium text-[12px] text-ink-mute">from</span>
+                {pkg.popular && (
+                  <span className="text-[20px] text-ink-faint line-through">
+                    ${pkg.price[size]}
+                  </span>
+                )}
                 <span className="display text-[46px] leading-none text-volt">
                   $
                   <NumberFlow
-                    value={pkg.price[size]}
+                    value={pkg.price[size] - (pkg.popular ? LAUNCH_DISCOUNT : 0)}
                     className="display text-[46px] leading-none text-volt"
                   />
                 </span>
               </div>
+              {pkg.popular && (
+                <p className="mt-2 text-[12px] text-volt">
+                  Launch special — first 10 bookings
+                </p>
+              )}
               <ul className="mt-6 space-y-2.5 flex-1">
                 {pkg.features.map((feature) => (
                   <li key={feature} className="flex gap-3 text-[14px] text-ink-soft">

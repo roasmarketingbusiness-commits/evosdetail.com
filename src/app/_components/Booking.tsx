@@ -3,12 +3,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
-const PACKAGES: Record<string, { sedan: number; suv: number }> = {
-  "Exterior Detail": { sedan: 99, suv: 129 },
-  "Interior Detail": { sedan: 129, suv: 159 },
-  "The Full EVOS": { sedan: 189, suv: 239 },
+const PACKAGES: Record<string, { sedan: number; suv: number; van: number }> = {
+  "Exterior Detail": { sedan: 69, suv: 89, van: 109 },
+  "Interior Detail": { sedan: 119, suv: 149, van: 179 },
+  "The Full EVOS": { sedan: 169, suv: 209, van: 249 },
 };
-const VEHICLES = ["Sedan / Coupe", "SUV / Truck"];
+const VEHICLES = ["Sedan / Coupe", "SUV / Truck", "3-Row / Van"];
 const CONDITIONS = [
   "Lightly lived-in — just needs a refresh",
   "Pretty dirty — it’s been a while",
@@ -199,7 +199,11 @@ export function Booking() {
   const price =
     answers.package && answers.vehicle
       ? PACKAGES[answers.package][
-          answers.vehicle === "SUV / Truck" ? "suv" : "sedan"
+          answers.vehicle === "SUV / Truck"
+            ? "suv"
+            : answers.vehicle === "3-Row / Van"
+              ? "van"
+              : "sedan"
         ]
       : null;
 

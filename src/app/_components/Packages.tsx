@@ -4,7 +4,7 @@ import NumberFlow from "@number-flow/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-type VehicleSize = "sedan" | "suv";
+type VehicleSize = "sedan" | "suv" | "van";
 
 interface Package {
   name: string;
@@ -18,19 +18,19 @@ const PACKAGES: Package[] = [
   {
     name: "Exterior Detail",
     tagline: "Showroom shine, street-ready.",
-    price: { sedan: 99, suv: 129 },
+    price: { sedan: 69, suv: 89, van: 109 },
     features: [
       "Foam cannon hand wash",
       "Wheels, tires & wheel wells",
-      "Bug & tar removal",
-      "Spray wax / sealant protection",
-      "Exterior glass & trim dressing",
+      "Bug removal",
+      "Tire shine & trim dressing",
+      "Streak-free exterior glass",
     ],
   },
   {
     name: "The Full EVOS",
     tagline: "Interior + exterior. The works.",
-    price: { sedan: 189, suv: 239 },
+    price: { sedan: 169, suv: 209, van: 249 },
     features: [
       "Everything in Exterior Detail",
       "Everything in Interior Detail",
@@ -43,12 +43,12 @@ const PACKAGES: Package[] = [
   {
     name: "Interior Detail",
     tagline: "Deep clean, back to day one.",
-    price: { sedan: 129, suv: 159 },
+    price: { sedan: 119, suv: 149, van: 179 },
     features: [
       "Full vacuum — seats, trunk, crevices",
-      "Carpet & upholstery shampoo",
+      "Hand spot-clean, seats & carpets",
       "Leather clean & condition",
-      "Dash, console & trim detail",
+      "Dash, console & vents detailed",
       "Interior glass & mirrors",
     ],
   },
@@ -56,7 +56,7 @@ const PACKAGES: Package[] = [
 
 const ADDONS = [
   { name: "Pet hair removal", price: 39 },
-  { name: "Engine bay detail", price: 29 },
+  { name: "Engine bay detail", price: 39 },
   { name: "Headlight restoration", price: 49 },
 ];
 
@@ -99,6 +99,7 @@ function VehicleSwitch({
         [
           ["sedan", "Sedan / Coupe"],
           ["suv", "SUV / Truck"],
+          ["van", "3-Row / Van"],
         ] as const
       ).map(([size, label]) => (
         <button

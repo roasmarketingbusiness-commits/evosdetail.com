@@ -52,7 +52,7 @@ export default function RootLayout({
                 "Premium mobile car detailing — we come to you. Interior, exterior, and full details across Greater Houston.",
               url: "https://evosdetail.com",
               telephone: "+18323875145",
-              priceRange: "$99–$239",
+              priceRange: "$69–$249",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "Pearland",

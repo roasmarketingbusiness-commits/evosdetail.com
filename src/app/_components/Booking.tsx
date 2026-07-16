@@ -32,7 +32,7 @@ interface Answers {
   condition: string;
   date: string;
   timeWindow: string;
-  zip: string;
+  address: string;
   name: string;
   phone: string;
   notes: string;
@@ -44,7 +44,7 @@ const EMPTY: Answers = {
   condition: "",
   date: "",
   timeWindow: "",
-  zip: "",
+  address: "",
   name: "",
   phone: "",
   notes: "",
@@ -231,7 +231,9 @@ export function Booking() {
           ? ""
           : "Pick a day and a time window.";
       case 4:
-        return /^\d{5}$/.test(answers.zip) ? "" : "Enter a 5-digit zip code.";
+        return answers.address.trim().length >= 8
+          ? ""
+          : "Enter the address where the car will be parked.";
       case 5:
         return answers.name.trim() && answers.phone.trim().length >= 7
           ? ""
@@ -274,7 +276,7 @@ export function Booking() {
           _template: "table",
           name: answers.name,
           phone: answers.phone,
-          zip: answers.zip,
+          address: answers.address,
           package: answers.package,
           vehicle: answers.vehicle,
           condition: answers.condition,
@@ -325,7 +327,7 @@ export function Booking() {
         ? `${prettyDate}${answers.timeWindow ? " · " + answers.timeWindow : ""}`
         : "—",
     ],
-    ["Zip", answers.zip || "—"],
+    ["Address", answers.address || "—"],
   ];
 
   return (
@@ -538,19 +540,16 @@ export function Booking() {
                         <h3 className="display text-[26px] mb-6">
                           Where&rsquo;s the car parked?
                         </h3>
-                        <label htmlFor="zip" className={labelClass}>
-                          Zip code
+                        <label htmlFor="address" className={labelClass}>
+                          Address
                         </label>
                         <input
-                          id="zip"
-                          inputMode="numeric"
-                          pattern="[0-9]{5}"
-                          maxLength={5}
-                          value={answers.zip}
-                          onChange={(e) =>
-                            set({ zip: e.target.value.replace(/\D/g, "") })
-                          }
-                          placeholder="77584"
+                          id="address"
+                          type="text"
+                          autoComplete="street-address"
+                          value={answers.address}
+                          onChange={(e) => set({ address: e.target.value })}
+                          placeholder="2412 Broadway St, Pearland, TX 77581"
                           autoFocus
                           className={inputClass}
                         />

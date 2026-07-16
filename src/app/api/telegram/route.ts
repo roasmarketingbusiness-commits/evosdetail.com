@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     `Vehicle: ${data.vehicle}`,
     `Condition: ${data.condition || "—"}`,
     `Day: ${data.date} — ${data.timeWindow}`,
-    `Zip: ${data.zip}`,
+    `Address: ${data.address}`,
     "",
     `Name: ${data.name}`,
     `Phone: ${data.phone}`,

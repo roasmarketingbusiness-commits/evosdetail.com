@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
@@ -15,6 +16,12 @@ const CONDITIONS = [
   "Send help — kids, pets, or serious buildup",
 ];
 const TIMES = ["Morning (10–1)", "Afternoon (1–4)", "Evening (4–7)"];
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
 
 const STEP_COUNT = 7;
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -297,6 +304,18 @@ export function Booking() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...answers, date: prettyDate, company: "" }),
       }).catch(() => {});
+      // conversion tracking — Vercel Analytics + GA4 (feeds Google Ads)
+      track("booking_submitted", {
+        package: answers.package,
+        vehicle: answers.vehicle,
+        value: finalPrice ?? 0,
+      });
+      window.gtag?.("event", "generate_lead", {
+        package: answers.package,
+        vehicle: answers.vehicle,
+        value: finalPrice ?? 0,
+        currency: "USD",
+      });
       setStatus("sent");
     } catch {
       setStatus("error");

@@ -34,8 +34,8 @@ export function Hero() {
             className="display text-balance leading-[1.04]"
             style={{ fontSize: "clamp(44px, 6.5vw, 92px)" }}
           >
-            Your car, <em className="text-volt not-italic">detailed.</em>{" "}
-            Your driveway.
+            The best your car has ever looked, without leaving the{" "}
+            <em className="text-volt not-italic">driveway.</em>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -43,9 +43,8 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.45, ease }}
             className="mx-auto mt-8 max-w-[52ch] text-[16px] md:text-[17px] text-ink-soft leading-relaxed"
           >
-            EVOS brings the full detail to you — home, office, wherever your
-            car sits. Based in Pearland, serving 20 miles in every direction.
-            Details from $99, booked online in 60 seconds.
+            Not a gas station vacuum. A real detail — seats, carpets, paint,
+            the works. We come to you anywhere in the Pearland area.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

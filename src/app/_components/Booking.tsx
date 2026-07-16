@@ -14,7 +14,7 @@ const CONDITIONS = [
   "Pretty dirty — it’s been a while",
   "Send help — kids, pets, or serious buildup",
 ];
-const TIMES = ["Morning (8–11)", "Midday (11–2)", "Afternoon (2–6)"];
+const TIMES = ["Morning (10–1)", "Afternoon (1–4)", "Evening (4–7)"];
 
 const STEP_COUNT = 7;
 const ease = [0.22, 1, 0.36, 1] as const;

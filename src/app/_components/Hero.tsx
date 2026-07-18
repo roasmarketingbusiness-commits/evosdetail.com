@@ -18,39 +18,6 @@ const TICKER = [
 export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
-      {/* looping wash footage behind the headline, dimmed hard for readability */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.6, delay: 0.4 }}
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[760px] md:h-[880px]"
-        style={{
-          maskImage:
-            "linear-gradient(to bottom, black 60%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, black 60%, transparent 100%)",
-        }}
-      >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster="/hero-mitt-poster.jpg"
-          className="h-full w-full object-cover opacity-45 saturate-[0.85] motion-reduce:hidden"
-        >
-          <source src="/hero-mitt.mp4" type="video/mp4" />
-        </video>
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, color-mix(in srgb, var(--paper) 55%, transparent), color-mix(in srgb, var(--paper) 30%, transparent) 45%, var(--paper) 96%)",
-          }}
-        />
-      </motion.div>
       <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 pt-36 md:pt-44">
         <div className="relative z-10 mx-auto max-w-[820px] text-center">
           <motion.p
@@ -113,7 +80,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8, ease }}
-          className="relative z-10 mx-auto mt-14 md:mt-20 max-w-[980px]"
+          className="mx-auto mt-14 md:mt-20 max-w-[980px]"
         >
           <Image
             src="/hero-car-suds.jpg"

@@ -316,6 +316,19 @@ export function Booking() {
         value: finalPrice ?? 0,
         currency: "USD",
       });
+      // Google Ads conversion — needs NEXT_PUBLIC_AW_ID (AW-XXXXXXXXXX)
+      // and NEXT_PUBLIC_AW_BOOKING_LABEL from the conversion action's
+      // "install the tag yourself" snippet in Google Ads
+      if (
+        process.env.NEXT_PUBLIC_AW_ID &&
+        process.env.NEXT_PUBLIC_AW_BOOKING_LABEL
+      ) {
+        window.gtag?.("event", "conversion", {
+          send_to: `${process.env.NEXT_PUBLIC_AW_ID}/${process.env.NEXT_PUBLIC_AW_BOOKING_LABEL}`,
+          value: finalPrice ?? 0,
+          currency: "USD",
+        });
+      }
       setStatus("sent");
     } catch {
       setStatus("error");

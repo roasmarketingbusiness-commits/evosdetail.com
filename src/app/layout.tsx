@@ -5,6 +5,9 @@ import Script from "next/script";
 import "./globals.css";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+// Google Ads conversion tag (AW-XXXXXXXXXX) — enables Ads conversion
+// tracking + remarketing alongside GA4
+const AW_ID = process.env.NEXT_PUBLIC_AW_ID;
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -61,17 +64,19 @@ export default function RootLayout({
       <body className="relative min-h-full text-ink overflow-x-hidden">
         {children}
         <Analytics />
-        {GA_ID && (
+        {(GA_ID || AW_ID) && (
           <>
             <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID ?? AW_ID}`}
               strategy="afterInteractive"
             />
-            <Script id="ga4" strategy="afterInteractive">
+            <Script id="gtag-init" strategy="afterInteractive">
               {`window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
+                window.gtag = gtag;
                 gtag('js', new Date());
-                gtag('config', '${GA_ID}');`}
+                ${GA_ID ? `gtag('config', '${GA_ID}');` : ""}
+                ${AW_ID ? `gtag('config', '${AW_ID}');` : ""}`}
             </Script>
           </>
         )}

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { HeroCarAnimation } from "./HeroCarAnimation";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -18,6 +19,22 @@ const TICKER = [
 export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
+      {/* animated top-view detail scene behind the headline */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.6, delay: 0.5 }}
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-28 md:top-24 z-0 w-[420px] md:w-[560px] -translate-x-1/2"
+        style={{
+          maskImage:
+            "linear-gradient(to bottom, transparent, black 10%, black 78%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent, black 10%, black 78%, transparent)",
+        }}
+      >
+        <HeroCarAnimation />
+      </motion.div>
       <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 pt-36 md:pt-44">
         <div className="relative z-10 mx-auto max-w-[820px] text-center">
           <motion.p
@@ -80,7 +97,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8, ease }}
-          className="mx-auto mt-14 md:mt-20 max-w-[980px]"
+          className="relative z-10 mx-auto mt-14 md:mt-20 max-w-[980px]"
         >
           <Image
             src="/hero-car-suds.jpg"

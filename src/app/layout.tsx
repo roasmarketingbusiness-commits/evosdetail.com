@@ -30,6 +30,21 @@ export const metadata: Metadata = {
     siteName: "EVOS Detail",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "EVOS Detail — black sports car covered in suds during a detail",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "EVOS Detail — Mobile Car Detailing in Houston, TX",
+    description:
+      "Premium mobile car detailing across Greater Houston. We come to you.",
+    images: ["/og-image.jpg"],
   },
 };
 

@@ -38,10 +38,10 @@ export function Hero() {
           loop
           playsInline
           preload="auto"
-          poster="/hero-wash-poster.jpg"
+          poster="/hero-mitt-poster.jpg"
           className="h-full w-full object-cover opacity-45 saturate-[0.85] motion-reduce:hidden"
         >
-          <source src="/hero-wash.mp4" type="video/mp4" />
+          <source src="/hero-mitt.mp4" type="video/mp4" />
         </video>
         <div
           className="absolute inset-0"

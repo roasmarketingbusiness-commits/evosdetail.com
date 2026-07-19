@@ -1,7 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Space_Grotesk } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -61,25 +60,29 @@ export default function RootLayout({
       lang="en"
       className={`${bricolage.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
-      <body className="relative min-h-full text-ink overflow-x-hidden">
-        {children}
-        <Analytics />
-        {(GA_ID || AW_ID) && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID ?? AW_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="gtag-init" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || [];
+      {(GA_ID || AW_ID) && (
+        <head>
+          {/* Google tag in the SSR'd <head> so Google's tag detector finds
+              it in the raw HTML — Script strategies inject too late */}
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID ?? AW_ID}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 window.gtag = gtag;
                 gtag('js', new Date());
                 ${GA_ID ? `gtag('config', '${GA_ID}');` : ""}
-                ${AW_ID ? `gtag('config', '${AW_ID}');` : ""}`}
-            </Script>
-          </>
-        )}
+                ${AW_ID ? `gtag('config', '${AW_ID}');` : ""}`,
+            }}
+          />
+        </head>
+      )}
+      <body className="relative min-h-full text-ink overflow-x-hidden">
+        {children}
+        <Analytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

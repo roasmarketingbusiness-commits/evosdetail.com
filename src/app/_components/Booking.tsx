@@ -323,6 +323,32 @@ export function Booking() {
         process.env.NEXT_PUBLIC_AW_ID &&
         process.env.NEXT_PUBLIC_AW_BOOKING_LABEL
       ) {
+        // enhanced conversions: gtag hashes these in the browser before
+        // sending; raw values never leave the page. Phone must be E.164.
+        const digits = answers.phone.replace(/\D/g, "");
+        const e164 =
+          digits.length === 10
+            ? `+1${digits}`
+            : digits.length === 11 && digits.startsWith("1")
+              ? `+${digits}`
+              : null;
+        const [firstName, ...rest] = answers.name.trim().split(/\s+/);
+        const zip = answers.address.match(/\b\d{5}\b/)?.[0];
+        if (e164) {
+          window.gtag?.("set", "user_data", {
+            phone_number: e164,
+            ...(firstName && rest.length && zip
+              ? {
+                  address: {
+                    first_name: firstName,
+                    last_name: rest.join(" "),
+                    postal_code: zip,
+                    country: "US",
+                  },
+                }
+              : {}),
+          });
+        }
         window.gtag?.("event", "conversion", {
           send_to: `${process.env.NEXT_PUBLIC_AW_ID}/${process.env.NEXT_PUBLIC_AW_BOOKING_LABEL}`,
           value: finalPrice ?? 0,

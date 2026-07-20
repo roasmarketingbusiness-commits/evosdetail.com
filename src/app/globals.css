@@ -29,6 +29,17 @@
   --hairline-strong: #ffffff2b;
 }
 
+html {
+  scroll-behavior: smooth;
+  /* fixed header is 64px mobile / 80px desktop — keep anchored sections clear of it */
+  scroll-padding-top: 76px;
+}
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 92px;
+  }
+}
+
 html,
 body {
   background: var(--paper);

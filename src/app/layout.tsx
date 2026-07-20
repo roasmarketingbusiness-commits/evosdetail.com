@@ -7,6 +7,11 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 // Google Ads conversion tag (AW-XXXXXXXXXX) — enables Ads conversion
 // tracking + remarketing alongside GA4
 const AW_ID = process.env.NEXT_PUBLIC_AW_ID;
+// Conversion label from the Ads "calls to a phone number on your website"
+// action. When set, Google swaps the displayed number for a forwarding
+// number to attribute calls to ad clicks. The phone_conversion_number
+// must match the number exactly as rendered on the page.
+const AW_PHONE_LABEL = process.env.NEXT_PUBLIC_AW_PHONE_LABEL;
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -75,7 +80,12 @@ export default function RootLayout({
                 window.gtag = gtag;
                 gtag('js', new Date());
                 ${GA_ID ? `gtag('config', '${GA_ID}');` : ""}
-                ${AW_ID ? `gtag('config', '${AW_ID}');` : ""}`,
+                ${AW_ID ? `gtag('config', '${AW_ID}');` : ""}
+                ${
+                  AW_ID && AW_PHONE_LABEL
+                    ? `gtag('config', '${AW_ID}/${AW_PHONE_LABEL}', { phone_conversion_number: '(832) 387-5145' });`
+                    : ""
+                }`,
             }}
           />
         </head>

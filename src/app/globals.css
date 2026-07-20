@@ -200,7 +200,7 @@ body::after {
 .marquee-track {
   display: inline-flex;
   align-items: center;
-  animation: marquee 24s linear infinite;
+  animation: marquee 72s linear infinite;
   will-change: transform;
 }
 @keyframes marquee {

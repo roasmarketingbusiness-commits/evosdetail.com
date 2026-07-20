@@ -102,7 +102,7 @@ export function Hero() {
         aria-hidden
       >
         <div className="marquee-track">
-          {[0, 1].map((copy) => (
+          {[0, 1, 2, 3, 4, 5].map((copy) => (
             <span key={copy} className="inline-flex items-center">
               {TICKER.map((item) => (
                 <span key={item} className="inline-flex items-center">

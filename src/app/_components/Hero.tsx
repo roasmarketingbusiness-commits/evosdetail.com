@@ -18,7 +18,27 @@ const TICKER = [
 export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
-      <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 pt-36 md:pt-44">
+      {/* full-bleed background photo */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.4 }}
+        className="absolute inset-0"
+        aria-hidden
+      >
+        <Image
+          src="/hero-car-suds.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-paper/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-paper/80 via-paper/30 to-paper" />
+      </motion.div>
+
+      <div className="relative mx-auto flex min-h-[92svh] max-w-[1200px] items-center justify-center px-6 md:px-10 pt-36 md:pt-44 pb-20 md:pb-28">
         <div className="relative z-10 mx-auto max-w-[820px] text-center">
           <motion.p
             initial={{ opacity: 0 }}
@@ -74,23 +94,6 @@ export function Hero() {
             </a>
           </motion.div>
         </div>
-
-        {/* tilted showcase — structure from Tailark hero-section-9 */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8, ease }}
-          className="mx-auto mt-14 md:mt-20 max-w-[980px]"
-        >
-          <Image
-            src="/hero-car-suds.jpg"
-            alt="Black Porsche covered in suds during a detail"
-            width={1600}
-            height={1140}
-            priority
-            className="w-full h-auto rounded-sm border border-hairline-strong shadow-2xl shadow-black/60"
-          />
-        </motion.div>
       </div>
 
       {/* ticker strip */}
@@ -98,7 +101,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.1 }}
-        className="marquee relative z-10 border-t border-hairline py-5 mt-14 md:mt-20 bg-paper/60 backdrop-blur-sm"
+        className="marquee relative z-10 border-t border-hairline py-5 bg-paper/60 backdrop-blur-sm"
         aria-hidden
       >
         <div className="marquee-track">

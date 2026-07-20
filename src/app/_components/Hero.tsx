@@ -6,10 +6,10 @@ import Image from "next/image";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const TICKER = [
-  "$40 off — first 10 bookings",
+  "Launch special — The Full EVOS $129",
+  "First 10 bookings only",
   "Interior",
   "Exterior",
-  "The Full EVOS",
   "Pearland, TX",
   "We come to you",
   "Book online",

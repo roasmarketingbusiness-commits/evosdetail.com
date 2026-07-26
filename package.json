@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "@number-flow/react": "^0.6.1",
     "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12",

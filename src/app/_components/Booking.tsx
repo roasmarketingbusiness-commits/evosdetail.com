@@ -304,6 +304,12 @@ export function Booking() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...answers, date: prettyDate, company: "" }),
       }).catch(() => {});
+      // best-effort CRM capture — keeps the ISO date, unlike Telegram above
+      fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...answers, finalPrice, company: "" }),
+      }).catch(() => {});
       // conversion tracking — Vercel Analytics + GA4 (feeds Google Ads)
       track("booking_submitted", {
         package: answers.package,

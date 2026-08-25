@@ -111,13 +111,12 @@ export default function RootLayout({
                 addressRegion: "TX",
                 addressCountry: "US",
               },
-              // One coverage box spanning both home bases, 18mi out from
-              // centers ~4mi south of them — coverage deliberately skews
-              // toward Houston. Keep in sync with coverageBounds() in
-              // ServiceArea.tsx.
+              // One coverage box, edges set by real driving limits: Waller
+              // on the west, Cleveland on the east, skewed toward Houston.
+              // Keep in sync with COVERAGE_BOUNDS in ServiceArea.tsx.
               areaServed: {
                 "@type": "GeoShape",
-                box: "29.8912,-96.0518 30.4349,-94.8601",
+                box: "29.89,-95.93 30.43,-95.05",
               },
               openingHoursSpecification: {
                 "@type": "OpeningHoursSpecification",

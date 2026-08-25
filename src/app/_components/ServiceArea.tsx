@@ -4,36 +4,19 @@ import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 
-// Two home bases: Splendora (home) and Magnolia (the shop).
-// ONE clean coverage box spans both, reaching 18 miles out from centers
-// biased ~4 miles SOUTH of the bases — most customers are toward Houston,
-// so reach skews down, not up. Keep in sync with the JSON-LD GeoShape box
-// in layout.tsx.
+// Two home bases: Splendora (home) and Magnolia (the shop). Markers sit
+// at town centers on purpose — never pin the actual addresses publicly.
 const SPLENDORA: [number, number] = [30.2327, -95.1611];
 const MAGNOLIA: [number, number] = [30.2094, -95.7508];
-const SOUTH_BIAS_DEG = 0.058; // ~4 miles of latitude
-const HALF_SIDE_MILES = 18;
 
-// Single box = union extremes of an 18-mile square around each biased
-// center (lon degrees stretched to stay true miles at this latitude).
-function coverageBounds(): [[number, number], [number, number]] {
-  const corners = [SPLENDORA, MAGNOLIA].flatMap(([lat, lon]) => {
-    const cLat = lat - SOUTH_BIAS_DEG;
-    const latDelta = HALF_SIDE_MILES / 69.172;
-    const lonDelta =
-      HALF_SIDE_MILES / (69.172 * Math.cos((cLat * Math.PI) / 180));
-    return [
-      [cLat - latDelta, lon - lonDelta],
-      [cLat + latDelta, lon + lonDelta],
-    ];
-  });
-  const lats = corners.map((c) => c[0]);
-  const lons = corners.map((c) => c[1]);
-  return [
-    [Math.min(...lats), Math.min(...lons)],
-    [Math.max(...lats), Math.max(...lons)],
-  ];
-}
+// ONE coverage box, edges set by real driving limits (not radius math):
+// west stops at Waller, east stops just past Cleveland so the town is
+// inside, south reaches toward Houston, north stays tight. Keep in sync
+// with the JSON-LD GeoShape box in layout.tsx.
+const COVERAGE_BOUNDS: [[number, number], [number, number]] = [
+  [29.89, -95.93], // SW corner — Waller / toward Houston
+  [30.43, -95.05], // NE corner — just past Cleveland
+];
 
 export function ServiceArea() {
   const mapEl = useRef<HTMLDivElement>(null);
@@ -78,7 +61,7 @@ export function ServiceArea() {
           iconAnchor: [8, 8],
         });
 
-      const zone = L.rectangle(coverageBounds(), {
+      const zone = L.rectangle(COVERAGE_BOUNDS, {
         color: "#a78bfa",
         weight: 1.5,
         fillColor: "#a78bfa",
@@ -125,8 +108,8 @@ export function ServiceArea() {
             We run out of Splendora and Magnolia — anywhere inside the zone
             is standard pricing. That covers Cleveland, New Caney, Porter,
             Kingwood, Humble, and Atascocita on the east side; Magnolia,
-            Tomball, Pinehurst, and Hockley out west; and The Woodlands,
-            Spring, and Conroe in between.
+            Tomball, Pinehurst, Hockley, and Waller out west; and The
+            Woodlands, Spring, and Conroe in between.
           </p>
           <p className="mt-4 max-w-[46ch] text-[15px] md:text-[16px] text-ink-soft leading-relaxed">
             A little outside the zone?{" "}

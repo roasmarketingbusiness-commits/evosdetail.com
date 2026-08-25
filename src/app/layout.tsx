@@ -25,14 +25,14 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://evosdetail.com"),
-  title: "EVOS Detail — Mobile Car Detailing in Pearland & South Houston",
+  title: "EVOS Detail — Mobile Car Detailing in Splendora, Magnolia & North Houston",
   description:
-    "Premium mobile car detailing in Pearland and South Houston. Interior, exterior, and full details — we come to you. Book online in 60 seconds.",
+    "Premium mobile car detailing across North Houston — Splendora, Magnolia, The Woodlands, Spring, Tomball, Kingwood, and Conroe. Interior, exterior, and full details — we come to you, weekends 8am–8pm. Book online in 60 seconds.",
   robots: "index, follow",
   openGraph: {
     title: "EVOS Detail",
     description:
-      "Premium mobile car detailing in Pearland and South Houston. We come to you.",
+      "Premium mobile car detailing in Splendora, Magnolia, and North Houston. We come to you.",
     url: "https://evosdetail.com",
     siteName: "EVOS Detail",
     locale: "en_US",
@@ -48,9 +48,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "EVOS Detail — Mobile Car Detailing in Pearland & South Houston",
+    title: "EVOS Detail — Mobile Car Detailing in Splendora, Magnolia & North Houston",
     description:
-      "Premium mobile car detailing in Pearland and South Houston. We come to you.",
+      "Premium mobile car detailing in Splendora, Magnolia, and North Houston. We come to you.",
     images: ["/og-image.jpg"],
   },
 };
@@ -101,24 +101,41 @@ export default function RootLayout({
               "@type": "AutoWash",
               name: "EVOS Detail",
               description:
-                "Premium mobile car detailing — we come to you. Interior, exterior, and full details across Pearland and South Houston.",
+                "Premium mobile car detailing — we come to you. Interior, exterior, and full details across Splendora, Magnolia, The Woodlands, Spring, Tomball, Kingwood, and Conroe.",
               url: "https://evosdetail.com",
               telephone: "+18323875145",
               priceRange: "$69–$249",
               address: {
                 "@type": "PostalAddress",
-                addressLocality: "Pearland",
+                addressLocality: "Splendora",
                 addressRegion: "TX",
                 addressCountry: "US",
               },
-              areaServed: {
-                "@type": "GeoCircle",
-                geoMidpoint: {
-                  "@type": "GeoCoordinates",
-                  latitude: 29.5636,
-                  longitude: -95.286,
+              areaServed: [
+                {
+                  "@type": "GeoCircle",
+                  geoMidpoint: {
+                    "@type": "GeoCoordinates",
+                    latitude: 30.2327,
+                    longitude: -95.1611,
+                  },
+                  geoRadius: "32000",
                 },
-                geoRadius: "32000",
+                {
+                  "@type": "GeoCircle",
+                  geoMidpoint: {
+                    "@type": "GeoCoordinates",
+                    latitude: 30.2094,
+                    longitude: -95.7508,
+                  },
+                  geoRadius: "32000",
+                },
+              ],
+              openingHoursSpecification: {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: ["Saturday", "Sunday"],
+                opens: "08:00",
+                closes: "20:00",
               },
             }),
           }}

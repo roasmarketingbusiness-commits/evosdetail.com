@@ -5,6 +5,10 @@ import { useState } from "react";
 
 const FAQS = [
   {
+    q: "What days do you work?",
+    a: "Weekends — Saturday and Sunday, 8am to 8pm. Pick any weekend day in the booking form and we'll confirm your slot by text.",
+  },
+  {
     q: "Do you need my water or electricity?",
     a: "Yes — we'll need access to a water spigot and a standard outlet, plus enough space to work around the car. If you're not sure your spot works (like some apartment lots), mention it in the booking notes and we'll figure it out before we head over.",
   },
@@ -14,7 +18,7 @@ const FAQS = [
   },
   {
     q: "Can you detail at my apartment or office?",
-    a: "Usually, yes — as long as there's a water spigot and outlet we can reach, and your complex allows car washing on site. Interior-only details are easier anywhere since they don't need water hookups. When in doubt, drop it in the booking notes.",
+    a: "Usually, yes — as long as there's a water spigot and outlet we can reach, and your complex allows car washing on site. Interior-only details are easier anywhere since they don't need water hookups. No hookups at all? You can also drop your car at our shop in Magnolia and we'll handle it there — mention it in the booking notes.",
   },
   {
     q: "How do I pay?",
@@ -22,7 +26,7 @@ const FAQS = [
   },
   {
     q: "I'm outside the 20-mile area — can you still come?",
-    a: "Usually, yeah. If you're a little past the circle, it's a flat $20 travel add-on on top of your package — that's it. Way out there? Send the booking anyway and we'll be straight with you about whether we can make it work.",
+    a: "Usually, yeah. If you're a little past the circles, it's a flat $20 travel add-on on top of your package — that's it. Way out there? Send the booking anyway and we'll be straight with you about whether we can make it work.",
   },
   {
     q: "What if it rains?",

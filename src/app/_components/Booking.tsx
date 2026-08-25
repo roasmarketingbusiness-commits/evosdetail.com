@@ -15,7 +15,13 @@ const CONDITIONS = [
   "Pretty dirty — it’s been a while",
   "Send help — kids, pets, or serious buildup",
 ];
-const TIMES = ["Morning (10–1)", "Afternoon (1–4)", "Evening (4–7)"];
+// Weekend-only operation: Saturday & Sunday, 8am–8pm.
+const TIMES = [
+  "Morning (8–11)",
+  "Midday (11–2)",
+  "Afternoon (2–5)",
+  "Evening (5–8)",
+];
 
 declare global {
   interface Window {
@@ -136,19 +142,20 @@ function Calendar({
         {cells.map((date, i) => {
           if (!date) return <span key={`blank-${i}`} />;
           const key = toKey(date);
-          const isPast = date < today;
+          const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+          const unavailable = date < today || !isWeekend;
           const isSelected = value === key;
           const isToday = key === toKey(today);
           return (
             <button
               key={key}
               type="button"
-              disabled={isPast}
+              disabled={unavailable}
               onClick={() => onSelect(key)}
               className={`aspect-square text-[13px] transition-colors ${
                 isSelected
                   ? "bg-volt text-paper font-medium"
-                  : isPast
+                  : unavailable
                     ? "text-ink-faint/50 cursor-not-allowed"
                     : `text-ink-soft hover:bg-paper-rise hover:text-ink ${
                         isToday ? "border border-hairline-strong" : ""
@@ -236,7 +243,7 @@ export function Booking() {
       case 3:
         return answers.date && answers.timeWindow
           ? ""
-          : "Pick a day and a time window.";
+          : "Pick a Saturday or Sunday and a time window.";
       case 4:
         return answers.address.trim().length >= 8
           ? ""
@@ -574,6 +581,10 @@ export function Booking() {
                           When works for you?
                         </h3>
                         <span className={labelClass}>Preferred day</span>
+                        <p className="mt-2 text-[13px] text-ink-mute">
+                          We detail on weekends — Saturdays &amp; Sundays,
+                          8am–8pm.
+                        </p>
                         <div className="mt-3 mb-7">
                           <Calendar
                             value={answers.date}
@@ -613,14 +624,14 @@ export function Booking() {
                           autoComplete="street-address"
                           value={answers.address}
                           onChange={(e) => set({ address: e.target.value })}
-                          placeholder="2412 Broadway St, Pearland, TX 77581"
+                          placeholder="14035 FM 2090, Splendora, TX 77372"
                           autoFocus
                           className={inputClass}
                         />
                         <p className="mt-4 text-[13px] text-ink-mute leading-relaxed">
-                          Inside 20 miles of Pearland is standard pricing — a
-                          little outside adds a flat $20 travel fee. We&rsquo;ll
-                          confirm either way.
+                          Inside 20 miles of Splendora or Magnolia is standard
+                          pricing — a little outside adds a flat $20 travel
+                          fee. We&rsquo;ll confirm either way.
                         </p>
                       </div>
                     )}

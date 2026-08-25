@@ -10,7 +10,8 @@ const TICKER = [
   "First 10 bookings only",
   "Interior",
   "Exterior",
-  "Pearland, TX",
+  "Splendora & Magnolia, TX",
+  "Weekends 8am–8pm",
   "We come to you",
   "Book online",
 ];
@@ -46,7 +47,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="eyebrow text-volt mb-8"
           >
-            Launch special — Mobile detailing, Pearland TX
+            Launch special — Mobile detailing, North Houston
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
@@ -71,8 +72,9 @@ export function Hero() {
             className="mx-auto mt-8 max-w-[52ch] text-[16px] md:text-[17px] text-ink-soft leading-relaxed"
           >
             Not a gas station vacuum — the full interior + exterior, seats to
-            paint. First 10 bookings save $40 on any vehicle size, anywhere in
-            the Pearland area.
+            paint. First 10 bookings save $40 on any vehicle size, anywhere
+            from Splendora to Magnolia — Kingwood, The Woodlands, Tomball,
+            and everything between.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

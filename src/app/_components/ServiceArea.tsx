@@ -5,10 +5,17 @@ import { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 
 // Two home bases: Splendora (home) and Magnolia (the shop).
-// Radius: 20 miles in meters around each.
+// Coverage circles are 18 miles, centered ~4 miles SOUTH of each base —
+// most customers are toward Houston, so reach skews down, not up.
 const SPLENDORA: [number, number] = [30.2327, -95.1611];
 const MAGNOLIA: [number, number] = [30.2094, -95.7508];
-const RADIUS_METERS = 20 * 1609.34;
+const SOUTH_BIAS_DEG = 0.058; // ~4 miles of latitude
+const RADIUS_METERS = 18 * 1609.34;
+
+const zoneCenter = ([lat, lon]: [number, number]): [number, number] => [
+  lat - SOUTH_BIAS_DEG,
+  lon,
+];
 
 export function ServiceArea() {
   const mapEl = useRef<HTMLDivElement>(null);
@@ -48,7 +55,7 @@ export function ServiceArea() {
         { center: SPLENDORA, label: "<b>EVOS Detail</b><br/>Home base — Splendora, TX" },
         { center: MAGNOLIA, label: "<b>EVOS Detail</b><br/>The shop — Magnolia, TX" },
       ].map(({ center, label }) => {
-        const zone = L.circle(center, {
+        const zone = L.circle(zoneCenter(center), {
           radius: RADIUS_METERS,
           color: "#c8a656",
           weight: 2,
@@ -92,9 +99,9 @@ export function ServiceArea() {
           <p className="mt-6 max-w-[46ch] text-[15px] md:text-[16px] text-ink-soft leading-relaxed">
             We run out of Splendora and Magnolia — anywhere inside either
             circle is standard pricing. That covers Cleveland, New Caney,
-            Porter, Kingwood, and Humble on the east side; Magnolia, Tomball,
-            and Pinehurst out west; and The Woodlands, Spring, and Conroe in
-            between.
+            Porter, Kingwood, Humble, and Atascocita on the east side;
+            Magnolia, Tomball, Pinehurst, and Hockley out west; and The
+            Woodlands and Spring in between.
           </p>
           <p className="mt-4 max-w-[46ch] text-[15px] md:text-[16px] text-ink-soft leading-relaxed">
             A little outside the circles?{" "}

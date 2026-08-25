@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://evosdetail.com"),
   title: "EVOS Detail — Mobile Car Detailing in Splendora, Magnolia & North Houston",
   description:
-    "Premium mobile car detailing across North Houston — Splendora, Magnolia, The Woodlands, Spring, Tomball, Kingwood, and Conroe. Interior, exterior, and full details — we come to you, weekends 8am–8pm. Book online in 60 seconds.",
+    "Premium mobile car detailing across North Houston — Splendora, Magnolia, The Woodlands, Spring, Tomball, Kingwood, and Humble. Interior, exterior, and full details — we come to you, weekends 8am–8pm. Book online in 60 seconds.",
   robots: "index, follow",
   openGraph: {
     title: "EVOS Detail",
@@ -101,7 +101,7 @@ export default function RootLayout({
               "@type": "AutoWash",
               name: "EVOS Detail",
               description:
-                "Premium mobile car detailing — we come to you. Interior, exterior, and full details across Splendora, Magnolia, The Woodlands, Spring, Tomball, Kingwood, and Conroe.",
+                "Premium mobile car detailing — we come to you. Interior, exterior, and full details across Splendora, Magnolia, The Woodlands, Spring, Tomball, Kingwood, and Humble.",
               url: "https://evosdetail.com",
               telephone: "+18323875145",
               priceRange: "$69–$249",
@@ -111,24 +111,27 @@ export default function RootLayout({
                 addressRegion: "TX",
                 addressCountry: "US",
               },
+              // Circle midpoints sit ~4mi south of the home bases — coverage
+              // deliberately skews toward Houston. Keep in sync with
+              // ServiceArea.tsx (SOUTH_BIAS_DEG + RADIUS_METERS).
               areaServed: [
                 {
                   "@type": "GeoCircle",
                   geoMidpoint: {
                     "@type": "GeoCoordinates",
-                    latitude: 30.2327,
+                    latitude: 30.1747,
                     longitude: -95.1611,
                   },
-                  geoRadius: "32000",
+                  geoRadius: "29000",
                 },
                 {
                   "@type": "GeoCircle",
                   geoMidpoint: {
                     "@type": "GeoCoordinates",
-                    latitude: 30.2094,
+                    latitude: 30.1514,
                     longitude: -95.7508,
                   },
-                  geoRadius: "32000",
+                  geoRadius: "29000",
                 },
               ],
               openingHoursSpecification: {

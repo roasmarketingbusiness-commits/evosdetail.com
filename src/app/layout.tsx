@@ -111,27 +111,17 @@ export default function RootLayout({
                 addressRegion: "TX",
                 addressCountry: "US",
               },
-              // Circle midpoints sit ~4mi south of the home bases — coverage
-              // deliberately skews toward Houston. Keep in sync with
-              // ServiceArea.tsx (SOUTH_BIAS_DEG + RADIUS_METERS).
+              // Square zones 18mi out from centers ~4mi south of the home
+              // bases — coverage deliberately skews toward Houston. Keep in
+              // sync with ServiceArea.tsx (SOUTH_BIAS_DEG + HALF_SIDE_MILES).
               areaServed: [
                 {
-                  "@type": "GeoCircle",
-                  geoMidpoint: {
-                    "@type": "GeoCoordinates",
-                    latitude: 30.1747,
-                    longitude: -95.1611,
-                  },
-                  geoRadius: "29000",
+                  "@type": "GeoShape",
+                  box: "29.9145,-95.4621 30.4349,-94.8601",
                 },
                 {
-                  "@type": "GeoCircle",
-                  geoMidpoint: {
-                    "@type": "GeoCoordinates",
-                    latitude: 30.1514,
-                    longitude: -95.7508,
-                  },
-                  geoRadius: "29000",
+                  "@type": "GeoShape",
+                  box: "29.8912,-96.0518 30.4116,-95.4498",
                 },
               ],
               openingHoursSpecification: {

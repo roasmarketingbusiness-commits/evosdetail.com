@@ -10,12 +10,26 @@ import "leaflet/dist/leaflet.css";
 const SPLENDORA: [number, number] = [30.2327, -95.1611];
 const MAGNOLIA: [number, number] = [30.2094, -95.7508];
 const SOUTH_BIAS_DEG = 0.058; // ~4 miles of latitude
-const RADIUS_METERS = 18 * 1609.34;
+const HALF_SIDE_MILES = 18; // square zones, 18 miles out from center
 
 const zoneCenter = ([lat, lon]: [number, number]): [number, number] => [
   lat - SOUTH_BIAS_DEG,
   lon,
 ];
+
+// Square bounds around a center: same miles in every direction, with
+// longitude degrees stretched to stay true miles at this latitude.
+function zoneBounds([lat, lon]: [number, number]): [
+  [number, number],
+  [number, number],
+] {
+  const latDelta = HALF_SIDE_MILES / 69.172;
+  const lonDelta = HALF_SIDE_MILES / (69.172 * Math.cos((lat * Math.PI) / 180));
+  return [
+    [lat - latDelta, lon - lonDelta],
+    [lat + latDelta, lon + lonDelta],
+  ];
+}
 
 export function ServiceArea() {
   const mapEl = useRef<HTMLDivElement>(null);
@@ -55,8 +69,7 @@ export function ServiceArea() {
         { center: SPLENDORA, label: "<b>EVOS Detail</b><br/>Home base — Splendora, TX" },
         { center: MAGNOLIA, label: "<b>EVOS Detail</b><br/>The shop — Magnolia, TX" },
       ].map(({ center, label }) => {
-        const zone = L.circle(zoneCenter(center), {
-          radius: RADIUS_METERS,
+        const zone = L.rectangle(zoneBounds(zoneCenter(center)), {
           color: "#c8a656",
           weight: 2,
           fillColor: "#c8a656",
@@ -98,13 +111,13 @@ export function ServiceArea() {
           </h2>
           <p className="mt-6 max-w-[46ch] text-[15px] md:text-[16px] text-ink-soft leading-relaxed">
             We run out of Splendora and Magnolia — anywhere inside either
-            circle is standard pricing. That covers Cleveland, New Caney,
+            zone is standard pricing. That covers Cleveland, New Caney,
             Porter, Kingwood, Humble, and Atascocita on the east side;
             Magnolia, Tomball, Pinehurst, and Hockley out west; and The
             Woodlands and Spring in between.
           </p>
           <p className="mt-4 max-w-[46ch] text-[15px] md:text-[16px] text-ink-soft leading-relaxed">
-            A little outside the circles?{" "}
+            A little outside the zones?{" "}
             <span className="text-volt">Flat $20 travel add-on</span>
             {" — no surprise pricing, ever. Drop your zip in the booking form and we'll confirm."}
           </p>
@@ -120,10 +133,10 @@ export function ServiceArea() {
           <div ref={mapEl} className="h-[420px] md:h-[480px] w-full" />
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-hairline px-5 py-3">
             <span className="font-medium text-[12px] text-ink-mute">
-              <span className="text-volt">●</span> In the circles — standard pricing
+              <span className="text-volt">■</span> In the zones — standard pricing
             </span>
             <span className="font-medium text-[12px] text-ink-mute">
-              ○ Outside — +$20 travel
+              □ Outside — +$20 travel
             </span>
           </div>
         </motion.div>

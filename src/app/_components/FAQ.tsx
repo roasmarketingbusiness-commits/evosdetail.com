@@ -26,7 +26,7 @@ const FAQS = [
   },
   {
     q: "I'm outside the service area — can you still come?",
-    a: "Usually, yeah. If you're a little past the circles, it's a flat $20 travel add-on on top of your package — that's it. Way out there? Send the booking anyway and we'll be straight with you about whether we can make it work.",
+    a: "Usually, yeah. If you're a little past the zones, it's a flat $20 travel add-on on top of your package — that's it. Way out there? Send the booking anyway and we'll be straight with you about whether we can make it work.",
   },
   {
     q: "What if it rains?",

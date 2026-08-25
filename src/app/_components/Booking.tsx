@@ -629,7 +629,7 @@ export function Booking() {
                           className={inputClass}
                         />
                         <p className="mt-4 text-[13px] text-ink-mute leading-relaxed">
-                          Inside the circles on our service-area map is
+                          Inside the zones on our service-area map is
                           standard pricing — a little outside adds a flat $20
                           travel fee. We&rsquo;ll confirm either way.
                         </p>

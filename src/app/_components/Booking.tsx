@@ -71,102 +71,54 @@ function toKey(d: Date) {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
-const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+const DAY_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const MONTH_SHORT = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
-const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-function Calendar({
+// Weekend-only operation: the picker offers ONLY the next few Saturdays
+// and Sundays — no month grid, no grayed-out weekdays.
+function upcomingWeekendDates(count: number): Date[] {
+  const dates: Date[] = [];
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 1); // bookings start tomorrow at the earliest
+  while (dates.length < count) {
+    if (d.getDay() === 0 || d.getDay() === 6) dates.push(new Date(d));
+    d.setDate(d.getDate() + 1);
+  }
+  return dates;
+}
+
+function WeekendPicker({
   value,
   onSelect,
 }: {
   value: string;
   onSelect: (v: string) => void;
 }) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const initial = value ? new Date(value + "T00:00:00") : today;
-  const [viewYear, setViewYear] = useState(initial.getFullYear());
-  const [viewMonth, setViewMonth] = useState(initial.getMonth());
-
-  const firstDay = new Date(viewYear, viewMonth, 1);
-  const startWeekday = firstDay.getDay();
-  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-  const atCurrentMonth =
-    viewYear === today.getFullYear() && viewMonth === today.getMonth();
-
-  function shiftMonth(delta: number) {
-    const d = new Date(viewYear, viewMonth + delta, 1);
-    setViewYear(d.getFullYear());
-    setViewMonth(d.getMonth());
-  }
-
-  const cells: Array<Date | null> = [
-    ...Array.from({ length: startWeekday }, () => null),
-    ...Array.from({ length: daysInMonth }, (_, i) => new Date(viewYear, viewMonth, i + 1)),
-  ];
-
+  const options = upcomingWeekendDates(8);
   return (
-    <div className="border border-hairline bg-paper p-4 max-w-[340px]">
-      <div className="flex items-center justify-between mb-3">
-        <button
-          type="button"
-          onClick={() => shiftMonth(-1)}
-          disabled={atCurrentMonth}
-          aria-label="Previous month"
-          className="px-3 py-1 text-ink-mute hover:text-volt transition-colors disabled:opacity-30 disabled:hover:text-ink-mute"
-        >
-          ‹
-        </button>
-        <span className="font-medium text-[14px]">
-          {MONTHS[viewMonth]} {viewYear}
-        </span>
-        <button
-          type="button"
-          onClick={() => shiftMonth(1)}
-          aria-label="Next month"
-          className="px-3 py-1 text-ink-mute hover:text-volt transition-colors"
-        >
-          ›
-        </button>
-      </div>
-      <div className="grid grid-cols-7 gap-1 mb-1">
-        {WEEKDAYS.map((d) => (
-          <span key={d} className="text-center text-[11px] text-ink-faint py-1">
-            {d}
-          </span>
-        ))}
-      </div>
-      <div className="grid grid-cols-7 gap-1">
-        {cells.map((date, i) => {
-          if (!date) return <span key={`blank-${i}`} />;
-          const key = toKey(date);
-          const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-          const unavailable = date < today || !isWeekend;
-          const isSelected = value === key;
-          const isToday = key === toKey(today);
-          return (
-            <button
-              key={key}
-              type="button"
-              disabled={unavailable}
-              onClick={() => onSelect(key)}
-              className={`aspect-square text-[13px] transition-colors ${
-                isSelected
-                  ? "bg-volt text-paper font-medium"
-                  : unavailable
-                    ? "text-ink-faint/50 cursor-not-allowed"
-                    : `text-ink-soft hover:bg-paper-rise hover:text-ink ${
-                        isToday ? "border border-hairline-strong" : ""
-                      }`
-              }`}
-            >
-              {date.getDate()}
-            </button>
-          );
-        })}
-      </div>
+    <div className="grid grid-cols-2 gap-2.5 max-w-[420px]">
+      {options.map((date) => {
+        const key = toKey(date);
+        const label = `${DAY_SHORT[date.getDay()]}, ${MONTH_SHORT[date.getMonth()]} ${date.getDate()}`;
+        return (
+          <button
+            key={key}
+            type="button"
+            onClick={() => onSelect(key)}
+            className={`font-medium text-[13px] px-4 py-2.5 border transition-colors ${
+              value === key
+                ? "border-volt bg-volt text-paper"
+                : "border-hairline-strong text-ink-soft hover:border-volt"
+            }`}
+          >
+            {label}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -586,7 +538,7 @@ export function Booking() {
                           8am–8pm.
                         </p>
                         <div className="mt-3 mb-7">
-                          <Calendar
+                          <WeekendPicker
                             value={answers.date}
                             onSelect={(v) => set({ date: v })}
                           />

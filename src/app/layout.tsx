@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://evosdetail.com"),
   title: "EVOS Detail — Mobile Car Detailing in Splendora, Magnolia & North Houston",
   description:
-    "Premium mobile car detailing across North Houston — Splendora, Magnolia, The Woodlands, Spring, Tomball, Kingwood, and Humble. Interior, exterior, and full details — we come to you, weekends 8am–8pm. Book online in 60 seconds.",
+    "Premium mobile car detailing across North Houston — Splendora, Magnolia, The Woodlands, Spring, Tomball, Conroe, Kingwood, and Humble. Interior, exterior, and full details — we come to you, weekends 8am–8pm. Book online in 60 seconds.",
   robots: "index, follow",
   openGraph: {
     title: "EVOS Detail",
@@ -101,7 +101,7 @@ export default function RootLayout({
               "@type": "AutoWash",
               name: "EVOS Detail",
               description:
-                "Premium mobile car detailing — we come to you. Interior, exterior, and full details across Splendora, Magnolia, The Woodlands, Spring, Tomball, Kingwood, and Humble.",
+                "Premium mobile car detailing — we come to you. Interior, exterior, and full details across Splendora, Magnolia, The Woodlands, Spring, Tomball, Conroe, Kingwood, and Humble.",
               url: "https://evosdetail.com",
               telephone: "+18323875145",
               priceRange: "$69–$249",
@@ -111,19 +111,14 @@ export default function RootLayout({
                 addressRegion: "TX",
                 addressCountry: "US",
               },
-              // Square zones 18mi out from centers ~4mi south of the home
-              // bases — coverage deliberately skews toward Houston. Keep in
-              // sync with ServiceArea.tsx (SOUTH_BIAS_DEG + HALF_SIDE_MILES).
-              areaServed: [
-                {
-                  "@type": "GeoShape",
-                  box: "29.9145,-95.4621 30.4349,-94.8601",
-                },
-                {
-                  "@type": "GeoShape",
-                  box: "29.8912,-96.0518 30.4116,-95.4498",
-                },
-              ],
+              // One coverage box spanning both home bases, 18mi out from
+              // centers ~4mi south of them — coverage deliberately skews
+              // toward Houston. Keep in sync with coverageBounds() in
+              // ServiceArea.tsx.
+              areaServed: {
+                "@type": "GeoShape",
+                box: "29.8912,-96.0518 30.4349,-94.8601",
+              },
               openingHoursSpecification: {
                 "@type": "OpeningHoursSpecification",
                 dayOfWeek: ["Saturday", "Sunday"],

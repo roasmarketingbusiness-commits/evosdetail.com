@@ -5,29 +5,33 @@ import { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 
 // Two home bases: Splendora (home) and Magnolia (the shop).
-// Coverage circles are 18 miles, centered ~4 miles SOUTH of each base —
-// most customers are toward Houston, so reach skews down, not up.
+// ONE clean coverage box spans both, reaching 18 miles out from centers
+// biased ~4 miles SOUTH of the bases — most customers are toward Houston,
+// so reach skews down, not up. Keep in sync with the JSON-LD GeoShape box
+// in layout.tsx.
 const SPLENDORA: [number, number] = [30.2327, -95.1611];
 const MAGNOLIA: [number, number] = [30.2094, -95.7508];
 const SOUTH_BIAS_DEG = 0.058; // ~4 miles of latitude
-const HALF_SIDE_MILES = 18; // square zones, 18 miles out from center
+const HALF_SIDE_MILES = 18;
 
-const zoneCenter = ([lat, lon]: [number, number]): [number, number] => [
-  lat - SOUTH_BIAS_DEG,
-  lon,
-];
-
-// Square bounds around a center: same miles in every direction, with
-// longitude degrees stretched to stay true miles at this latitude.
-function zoneBounds([lat, lon]: [number, number]): [
-  [number, number],
-  [number, number],
-] {
-  const latDelta = HALF_SIDE_MILES / 69.172;
-  const lonDelta = HALF_SIDE_MILES / (69.172 * Math.cos((lat * Math.PI) / 180));
+// Single box = union extremes of an 18-mile square around each biased
+// center (lon degrees stretched to stay true miles at this latitude).
+function coverageBounds(): [[number, number], [number, number]] {
+  const corners = [SPLENDORA, MAGNOLIA].flatMap(([lat, lon]) => {
+    const cLat = lat - SOUTH_BIAS_DEG;
+    const latDelta = HALF_SIDE_MILES / 69.172;
+    const lonDelta =
+      HALF_SIDE_MILES / (69.172 * Math.cos((cLat * Math.PI) / 180));
+    return [
+      [cLat - latDelta, lon - lonDelta],
+      [cLat + latDelta, lon + lonDelta],
+    ];
+  });
+  const lats = corners.map((c) => c[0]);
+  const lons = corners.map((c) => c[1]);
   return [
-    [lat - latDelta, lon - lonDelta],
-    [lat + latDelta, lon + lonDelta],
+    [Math.min(...lats), Math.min(...lons)],
+    [Math.max(...lats), Math.max(...lons)],
   ];
 }
 
@@ -51,36 +55,44 @@ export function ServiceArea() {
         attributionControl: true,
       });
 
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19,
-      }).addTo(map);
+      // "Leaflet" prefix off — attribution itself stays (required)
+      map.attributionControl.setPrefix(false);
+
+      // Dark basemap so the map sits inside the site's black theme instead
+      // of fighting it
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          subdomains: "abcd",
+          maxZoom: 19,
+        },
+      ).addTo(map);
 
       const markerIcon = () =>
         L.divIcon({
           className: "",
-          html: '<div style="width:18px;height:18px;border-radius:50%;background:#c8a656;border:3px solid #060607;box-shadow:0 0 0 2px #c8a656"></div>',
-          iconSize: [18, 18],
-          iconAnchor: [9, 9],
+          html: '<div style="width:16px;height:16px;border-radius:50%;background:#a78bfa;border:3px solid #060607;box-shadow:0 0 0 2px #a78bfa"></div>',
+          iconSize: [16, 16],
+          iconAnchor: [8, 8],
         });
 
-      const zones = [
+      const zone = L.rectangle(coverageBounds(), {
+        color: "#a78bfa",
+        weight: 1.5,
+        fillColor: "#a78bfa",
+        fillOpacity: 0.08,
+      }).addTo(map);
+
+      [
         { center: SPLENDORA, label: "<b>EVOS Detail</b><br/>Home base — Splendora, TX" },
         { center: MAGNOLIA, label: "<b>EVOS Detail</b><br/>The shop — Magnolia, TX" },
-      ].map(({ center, label }) => {
-        const zone = L.rectangle(zoneBounds(zoneCenter(center)), {
-          color: "#c8a656",
-          weight: 2,
-          fillColor: "#c8a656",
-          fillOpacity: 0.12,
-        }).addTo(map!);
+      ].forEach(({ center, label }) => {
         L.marker(center, { icon: markerIcon() }).addTo(map!).bindPopup(label);
-        return zone;
       });
 
-      const bounds = zones[0].getBounds().extend(zones[1].getBounds());
-      map.fitBounds(bounds, { padding: [16, 16] });
+      map.fitBounds(zone.getBounds(), { padding: [24, 24] });
     })();
 
     return () => {
@@ -110,14 +122,14 @@ export function ServiceArea() {
             All of North Houston.
           </h2>
           <p className="mt-6 max-w-[46ch] text-[15px] md:text-[16px] text-ink-soft leading-relaxed">
-            We run out of Splendora and Magnolia — anywhere inside either
-            zone is standard pricing. That covers Cleveland, New Caney,
-            Porter, Kingwood, Humble, and Atascocita on the east side;
-            Magnolia, Tomball, Pinehurst, and Hockley out west; and The
-            Woodlands and Spring in between.
+            We run out of Splendora and Magnolia — anywhere inside the zone
+            is standard pricing. That covers Cleveland, New Caney, Porter,
+            Kingwood, Humble, and Atascocita on the east side; Magnolia,
+            Tomball, Pinehurst, and Hockley out west; and The Woodlands,
+            Spring, and Conroe in between.
           </p>
           <p className="mt-4 max-w-[46ch] text-[15px] md:text-[16px] text-ink-soft leading-relaxed">
-            A little outside the zones?{" "}
+            A little outside the zone?{" "}
             <span className="text-volt">Flat $20 travel add-on</span>
             {" — no surprise pricing, ever. Drop your zip in the booking form and we'll confirm."}
           </p>
@@ -133,7 +145,7 @@ export function ServiceArea() {
           <div ref={mapEl} className="h-[420px] md:h-[480px] w-full" />
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-hairline px-5 py-3">
             <span className="font-medium text-[12px] text-ink-mute">
-              <span className="text-volt">■</span> In the zones — standard pricing
+              <span className="text-volt">■</span> In the zone — standard pricing
             </span>
             <span className="font-medium text-[12px] text-ink-mute">
               □ Outside — +$20 travel

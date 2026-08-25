@@ -79,11 +79,16 @@ const MONTH_SHORT = [
 
 // Weekend-only operation: the picker offers ONLY the next few Saturdays
 // and Sundays — no month grid, no grayed-out weekdays.
+// Floor: no slots before Sept 12, 2026 (first weekend we can actually
+// work). Self-expiring — once that date passes, the floor does nothing.
+const FIRST_AVAILABLE = new Date("2026-09-12T00:00:00");
+
 function upcomingWeekendDates(count: number): Date[] {
   const dates: Date[] = [];
   const d = new Date();
   d.setHours(0, 0, 0, 0);
   d.setDate(d.getDate() + 1); // bookings start tomorrow at the earliest
+  if (d < FIRST_AVAILABLE) d.setTime(FIRST_AVAILABLE.getTime());
   while (dates.length < count) {
     if (d.getDay() === 0 || d.getDay() === 6) dates.push(new Date(d));
     d.setDate(d.getDate() + 1);
